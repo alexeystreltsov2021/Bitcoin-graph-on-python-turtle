@@ -284,7 +284,7 @@ grid.goto(-590+len(str(round(BASE_PRICE,1)))*15.5+ 20 + 90 + 165 + 15 + len(str(
 MASTAB = 350/BASE_PRICE
 price = BASE_PRICE / pixels_for_dollar * MASTAB -100
 line.pencolor("#a6a6a6")
-for i in range(-1600,1500,100):
+for i in range(-8000*pixels_for_dollar,7500*pixels_for_dollar,500*pixels_for_dollar:
         p2 = BASE_PRICE + i
         y =scale(p2)
         line.penup()
@@ -416,6 +416,7 @@ update_time()
 update_graph()
 
 w.mainloop()
+
 
 
 
