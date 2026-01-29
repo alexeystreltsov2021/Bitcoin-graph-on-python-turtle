@@ -1,15 +1,17 @@
+#------------------------------------------------ <import modules>
+
 import requests as req
 import turtle as t
 import time
 
-#------------------------------------------------
+#------------------------------------------------ <set screen settings>
 
 w=t.Screen()
 w.setup(width = 1200,height = 700)
 w._root.resizable(False,False)
 w._root.title('график биткоина')
 
-#------------------------------------------------
+#------------------------------------------------ <set turtels>
 
 r2=t.Turtle()
 graph = t.Turtle()
@@ -24,7 +26,7 @@ tim = t.Turtle()
 tim2 = t.Turtle()
 tim3 = t.Turtle()
 
-#------------------------------------------------
+#------------------------------------------------ <set turtle settings>
 
 t.hideturtle()
 r2.hideturtle()
@@ -40,8 +42,6 @@ tim2.hideturtle()
 tim3.hideturtle()
 bitcoin.hideturtle()
 
-#------------------------------------------------
-
 t.speed(0)
 r2.speed(0)
 graph.speed(0)
@@ -56,21 +56,17 @@ tim2.speed(0)
 tim3.speed(0)
 bitcoin.speed(0)
 
-#------------------------------------------------
+#------------------------------------------------ <preparing the program>
 
 t.pensize(2)
-
-#------------------------------------------------
 
 write_prices.up()
 write_prices.goto(-585,308)
 write_prices.down()
 
-#------------------------------------------------
-
 tim3.up()
 
-#------------------------------------------------
+#------------------------------------------------ <drew the background>
 print('================================================')
 t.bgcolor("#454545")
 bg.pencolor("#393939")
@@ -84,30 +80,26 @@ bg.dot(600)
 bg.pencolor("#1D1D1D")
 bg.dot(400)
 
-#------------------------------------------------
-
-# общее время над программой: 14 часов
-
-#------------------------------------------------
+#------------------------------------------------ <constants>
 
 pixels_for_dollar = 0.2
-first_price = 0
 STEP = 20
 Interval = 60
-duration = 3600 # длительность в секундах (1 час)
-start_time = time.time()
 offset = -20
+
+#------------------------------------------------ <variables>
+
+first_price = 0
 x = -580
 elements_for_block = []
 all_prices = []
 
-# #------------------------------------------------
-
+#------------------------------------------------ <function scale>
 
 def scale(price):
     return (price-BASE_PRICE) * pixels_for_dollar
-
-
+    
+#------------------------------------------------ <draw interface>
 
 try:
     url= 'https://api.binance.com/api/v3/ticker/price'
@@ -115,7 +107,7 @@ try:
     BASE_PRICE = float(response.json()['price'])
 except req.exceptions.ConnectionError:
     print('ошибка соединения')
-
+    
 
 grid.up()
 grid.goto(-590,340)
@@ -315,6 +307,7 @@ line.goto(500,300)
 line.down()
 line.goto(500,-350)
 
+#------------------------------------------------ <function get_price>
 
 def get_price()->float:
     try:
@@ -325,7 +318,8 @@ def get_price()->float:
         print('ошибка соединения')
         return -1
 
-    
+#------------------------------------------------ <function draw_block>
+
 def draw_block(prices, offset):
     last_price = prices[-1]
     max_price = max(prices)
@@ -337,9 +331,6 @@ def draw_block(prices, offset):
     y_low = scale(min_price)
 
     print('================================================')
-
-    if abs(y_open - y_close) < 2:
-        y_close = y_open + 2 if y_close > y_open else y_open - 2
 
     color = 'green' if last_price > first_price else 'red'
     graph.fillcolor(color)
@@ -361,6 +352,7 @@ def draw_block(prices, offset):
     graph.goto(x + 5 + offset, y_open)
     graph.end_fill()
 
+#------------------------------------------------ <function update_time>
 
 def update_time():
     tim2.clear()
@@ -373,14 +365,16 @@ def update_time():
     tim3.goto(-590+len(str(round(BASE_PRICE,1)))*15.5+25 + 90 + 13,310)
     tim3.write(time.strftime("%H:%M", time.localtime()),font = ("Times New Roman" , 10))
     grid.up()
-    w.ontimer(update_time, 60000)  # обновлять каждую минуту (60 000 мс)
+    w.ontimer(update_time, 60000)
 
+#------------------------------------------------ <function end>
 
 def end():
     if graph.xcor()>450:
         print('END')
         return -2
 
+#------------------------------------------------ <function update_graph>
 
 def update_graph():
     isand_end = end()
@@ -392,8 +386,7 @@ def update_graph():
         w.ontimer(update_graph, Interval * 1000)
         return
     prices = []
-
-
+    #-------------------- <function collect_prices>
     def collect_prices():
         nonlocal prices
         global offset
@@ -417,9 +410,11 @@ def update_graph():
             w.ontimer(update_graph, 1000)
     collect_prices()
 
-update_time()
+#------------------------------------------------ <start program>
 
+update_time()
 update_graph()
 
 w.mainloop()
+
 
