@@ -91,6 +91,7 @@ offset = -20
 
 first_price = 0
 x = -580
+isend = False
 elements_for_block = []
 all_prices = []
 
@@ -358,6 +359,9 @@ def draw_block(prices, offset):
 #------------------------------------------------ <function update_time>
 
 def update_time():
+    global isend
+    if isend == True:
+        return
     tim2.clear()
     current_time = time.strftime("%H:%M", time.localtime())
     tim2.up()
@@ -373,8 +377,10 @@ def update_time():
 #------------------------------------------------ <function end>
 
 def end():
+    global isend
     if graph.xcor()>450:
         print('END')
+        isend = True
         return -2
 
 #------------------------------------------------ <function update_graph>
