@@ -783,7 +783,8 @@ def start():
 
         update_interface()
         if is_real_time_graph:
-            start_y = 180 + (price_matrix[-1][-1] if price_matrix else BASE_PRICE - BASE_PRICE)/dollars_for_pixel
+            last_price = price_matrix[-1][-1] if price_matrix else BASE_PRICE
+            start_y = 180 + (last_price - BASE_PRICE)/dollars_for_pixel
             prev_last = price_matrix[-1][-1] if price_matrix else BASE_PRICE
             redraw_prices(price_list, start_y, prev_last)
 
@@ -826,6 +827,11 @@ def start():
 
 
         update_interface()
+        if is_real_time_graph:
+            last_price = price_matrix[-1][-1] if price_matrix else BASE_PRICE
+            start_y = 180 + (last_price - BASE_PRICE)/dollars_for_pixel
+            prev_last = price_matrix[-1][-1] if price_matrix else BASE_PRICE
+            redraw_prices(price_list, start_y, prev_last)
 
         if price_matrix:
             y = -240 + (price - BASE_PRICE)/dollars_for_pixel
@@ -1602,7 +1608,7 @@ def start():
                 upper_graph_x = -620
 
                 upper_graph.up()                
-                upper_graph.goto(upper_graph_x, upper_graph.ycor())
+                upper_graph.goto(upper_graph_x, 180)
                 upper_graph.down()
 
                 price_matrix_index += 1
@@ -1617,6 +1623,7 @@ def start():
                     update_max_price(max_price)
                     update_min_price(min_price)
                     price_list.clear()
+                    back_to_live_palet.clear()
                     update_price(None)
                     win.update()
                     return
@@ -1687,5 +1694,3 @@ def start():
 
 win.mainloop()
 
-
-# из за того что BASE_PRICE определяется вначале появляется разница между началом и стартом программы
