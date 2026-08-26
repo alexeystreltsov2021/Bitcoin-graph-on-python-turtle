@@ -97,8 +97,11 @@ BASE_PRICE = None
 
 theme = None
 
+#==================== <version> / <версия> \/\/\/
 
+VERSION = "version 1.0.1"
 
+#==================== <start screen> / <стартовый экран> \/\/\/
 def start_screen():
     startscreen.shape("turtle")
     startscreen.shapesize(15)
@@ -191,7 +194,7 @@ def start_screen():
     startscreen.pencolor("#000000")
     startscreen.up()
     startscreen.goto(-650, -445)
-    startscreen.write("version 1.0.0", font = ("Times New Roman" , 25))
+    startscreen.write(VERSION, font = ("Times New Roman" , 25))
 
     startscreen.goto(0,-200)
     startscreen.left(90)
@@ -220,7 +223,7 @@ def start_screen():
     startscreen.up()
     startscreen.pencolor("#000000")
     startscreen.goto(-650, -445)
-    startscreen.write("version 1.0.0", font = ("Times New Roman" , 25))
+    startscreen.write(VERSION, font = ("Times New Roman" , 25))
 
     startscreen.goto(-630, 320)
     startscreen.write("Select theme:", font = ("Times New Roman" , 80))
@@ -440,12 +443,13 @@ def start():
     max_price = BASE_PRICE
     min_price = BASE_PRICE
 
-    upper_graph.up()
-    upper_graph.goto(-620, 180)
-    upper_graph.down()
+
 
     win.tracer(0)
 
+    upper_graph.up()
+    upper_graph.goto(-620, 180)
+    upper_graph.down()
 
     t.up()
     t.goto(0,0)
@@ -740,7 +744,7 @@ def start():
     interface_lines.up()
     interface_lines.pencolor("#000000")
     interface_lines.goto(-650, -445)
-    interface_lines.write("version 1.0.0", font = ("Times New Roman" , 25))
+    interface_lines.write(VERSION, font = ("Times New Roman" , 25))
 
 
     #==================== <screen update> / <обновление экрана> \/\/\/
@@ -778,6 +782,10 @@ def start():
         max_price_text_line.goto(170 + end_palet_3, 403)
 
         update_interface()
+        if is_real_time_graph:
+            start_y = 180 + (price_matrix[-1][-1] if price_matrix else BASE_PRICE - BASE_PRICE)/dollars_for_pixel
+            prev_last = price_matrix[-1][-1] if price_matrix else BASE_PRICE
+            redraw_prices(price_list, start_y, prev_last)
 
         if price_matrix:
             y = -240 + (price - BASE_PRICE)/dollars_for_pixel
@@ -791,6 +799,8 @@ def start():
             max_price_text_line.up()
             max_price_text_line.pencolor('black')
             max_price_text_line.goto(170 + end_palet_3, 403)
+
+
 
             if y < -210 and y > -300:
                 redraw_back_to_live_palet()
@@ -871,9 +881,10 @@ def start():
     def draw_upper_graph(last_price, price):
             global upper_graph_x
 
+
             if is_real_time_graph:
                 #===== <segment color definition> / <определение цвета сегмента> \/\/\/
-                color = 'green' if last_price < price else '#cc0000' if last_price > price else 'black'
+                color = 'green' if last_price < price else '#cc0000' if last_price > price else "#000000"
                 upper_graph.pencolor(color)
 
                 #===== <y coord definition> / <определение вертикальной координаты> \/\/\/
@@ -1138,14 +1149,16 @@ def start():
 
             #===== <if the program is in live mode> / <если программа в live режиме> \/\/\/
             if is_real_time_graph:
+                last_price = BASE_PRICE if not price_matrix else price_matrix[-1][-1]
+
                 upper_graph.up()
-                upper_graph.goto(upper_graph_x, 180 + (price_list[0] - BASE_PRICE)/dollars_for_pixel)
+                upper_graph.goto(upper_graph_x, 180 + (last_price - BASE_PRICE)/dollars_for_pixel)
                 upper_graph.down()
 
                 #=== <redrawing> / <перерисовка> \/\/\/
                 for i in range(len(price_list)):
                     #== <data preparation> / <подготовка данных> \/\/\/
-                    last_price = BASE_PRICE if not price_matrix and len(price_list) == 1 else price_matrix[-1][-1] if price_matrix and len(price_list) == 1 else price_list[i-1]
+                    last_price = BASE_PRICE if not price_matrix and i == 0 else price_matrix[-1][-1] if price_matrix and i == 0 else price_list[i-1]
                     price = price_list[i]
 
                     #== <segment color definition> / <определение цвета сегмента> \/\/\/
@@ -1176,7 +1189,7 @@ def start():
                 #=== <redrawing> / <перерисовка> \/\/\/
                 for i in range(len(price_matrix[price_matrix_index])):
                     #== <data preparation> / <подготовка данных> \/\/\/
-                    last_price = BASE_PRICE if i == 0 and price_matrix_index == 0 else price_matrix[price_matrix_index - 1][-1] if i == 0 else price_matrix[price_matrix_index][i - 1]
+                    last_price = BASE_PRICE if i == 0 and price_matrix_index == 0 else price_matrix[price_matrix_index - 1][-1] if i == 0 and price_matrix_index != 0 else price_matrix[price_matrix_index][i - 1]
                     list_with_prices_autoscaling = price_matrix[price_matrix_index]
                     price = list_with_prices_autoscaling[i]
 
@@ -1383,7 +1396,7 @@ def start():
         interface_lines.down()
         interface_lines.goto(660, -30)
 
-        if len(price_matrix) != 2:
+        if len(price_matrix) != 60:
             redraw_back_to_live_palet()
 
 
@@ -1391,7 +1404,7 @@ def start():
         interface_lines.up()
         interface_lines.pencolor("#000000")
         interface_lines.goto(-650, -445)
-        interface_lines.write("version 1.0.0", font = ("Times New Roman" , 25))
+        interface_lines.write(VERSION, font = ("Times New Roman" , 25))
 
 
     #========== <function for reading keystrokes> / <функция для считывания нажатий> \/\/\/
@@ -1503,9 +1516,9 @@ def start():
                         #== <drawing live graph> / <отрисовка live графика> \/\/\/
                         win.tracer(0)
                         redraw_prices(price_list, start_y, prev_last)
-                        update_interface()
                         redraw_lower_graph()
-                        update_price(price_list[-1] if price_list else None)
+                        update_interface()                        
+                        update_price(price_list[-1] if price_list else price_matrix[-1][-1])
                         win.tracer(1)
                         
 
@@ -1555,7 +1568,6 @@ def start():
     win.tracer(1)
 
 
-
     #==================== <function main> / <главная функция> \/\/\/
     def main():
         global price_matrix, price_list, upper_graph_x, max_price, min_price, price_matrix_index, isend_upper_graph, current_time
@@ -1583,12 +1595,15 @@ def start():
                 price_list.clear()
                 upper_graph.clear()
 
-                upper_graph.up()
-                upper_graph.goto(-620, upper_graph.ycor())
-                upper_graph.down()
 
                 isend_upper_graph = None
+
+
                 upper_graph_x = -620
+
+                upper_graph.up()                
+                upper_graph.goto(upper_graph_x, upper_graph.ycor())
+                upper_graph.down()
 
                 price_matrix_index += 1
                 draw_lower_graph()
@@ -1621,11 +1636,11 @@ def start():
                 win.ontimer(main, 1000)
                 return
             else:
-                price_list.append(price)        
+                price_list.append(price)    
                 
                 if is_real_time_graph:
                     if len(price_list) == 1:
-                        is_autoscaling = draw_upper_graph(BASE_PRICE if not price_matrix else price_matrix[-1][-1], price)
+                        is_autoscaling = draw_upper_graph(BASE_PRICE if not price_matrix else price_matrix[-1][-1], price_list[-1])
                     else:
                         is_autoscaling = draw_upper_graph(price_list[-2], price_list[-1])
 
