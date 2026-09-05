@@ -1646,7 +1646,7 @@ def start():
     #========== <function to check if the top graph is complete> / <функция для проверки заавершения верхнего графика> \/\/\/
     def end_upper_graph():
         global isend_upper_graph
-        if len(price_list) == 5:
+        if len(price_list) == 60:
             if is_real_time_graph:            
                 isend_upper_graph = 'upper_graph_end'
             else:
