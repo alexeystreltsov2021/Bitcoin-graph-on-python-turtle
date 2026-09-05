@@ -308,8 +308,8 @@ def start_screen():
     startscreen.end_fill()
 
 
-    startscreen.pencolor("#af2929")
-    startscreen.fillcolor("#c53a3a")
+    startscreen.pencolor("#492f57")
+    startscreen.fillcolor("#523461")
     startscreen.pensize(6)
     startscreen.up()
     startscreen.goto(50, 200)
@@ -335,8 +335,8 @@ def start_screen():
     startscreen.end_fill()
 
 
-    startscreen.pencolor("#969696")
-    startscreen.fillcolor("#A3A3A3")
+    startscreen.pencolor("#af2929")
+    startscreen.fillcolor("#c53a3a")
     startscreen.pensize(6)
     startscreen.up()
     startscreen.goto(350, 200)
@@ -362,8 +362,8 @@ def start_screen():
     startscreen.end_fill()
 
 
-    startscreen.pencolor("#492f57")
-    startscreen.fillcolor("#523461")
+    startscreen.pencolor("#969696")
+    startscreen.fillcolor("#A3A3A3")
     startscreen.pensize(6)
     startscreen.up()
     startscreen.goto(550, 200)
@@ -440,21 +440,21 @@ def start_screen():
             startscreen_2.up()
             startscreen_2.goto(100, 50)
             startscreen_2.down()
-            theme = "red"
+            theme = "violet"
             startscreen_2.dot(25)
         elif x < 350 and x > 250 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
             startscreen_2.goto(300, 50)
             startscreen_2.down()
-            theme = "white"
+            theme = "red"
             startscreen_2.dot(25)
         elif x < 550 and x > 450 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
             startscreen_2.goto(500, 50)
             startscreen_2.down()
-            theme = "violet"
+            theme = "white"
             startscreen_2.dot(25)
 
         elif x < 170 and x > -170 and y > -250 and y < -150:
