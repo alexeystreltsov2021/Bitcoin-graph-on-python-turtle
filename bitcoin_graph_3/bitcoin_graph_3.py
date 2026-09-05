@@ -1608,7 +1608,7 @@ def start():
                 upper_graph_x = -620
 
                 upper_graph.up()                
-                upper_graph.goto(upper_graph_x, 180)
+                upper_graph.goto(upper_graph_x, upper_graph.ycor())
                 upper_graph.down()
 
                 price_matrix_index += 1
