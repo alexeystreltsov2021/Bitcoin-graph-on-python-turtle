@@ -99,7 +99,7 @@ theme = None
 
 #==================== <version> / <версия> \/\/\/
 
-VERSION = "version 1.0.1"
+VERSION = "version 1.0.2"
 
 #==================== <start screen> / <стартовый экран> \/\/\/
 def start_screen():
@@ -231,78 +231,80 @@ def start_screen():
     startscreen.pencolor("#0d3b31")
     startscreen.fillcolor("#145f4f")
     startscreen.pensize(6)
-    startscreen.goto(-500, 200)
+    startscreen.goto(-550, 200)
     startscreen.down()
     startscreen.begin_fill()
-    startscreen.goto(-400, 200)
-    startscreen.goto(-400, 100)
-    startscreen.goto(-500, 100)
-    startscreen.goto(-500, 200)
+    startscreen.goto(-450, 200)
+    startscreen.goto(-450, 100)
+    startscreen.goto(-550, 100)
+    startscreen.goto(-550, 200)
     startscreen.end_fill()
 
     startscreen.pencolor("#3d3d3d")
     startscreen.fillcolor("#4D4D4D")
     startscreen.pensize(4)
     startscreen.up()
-    startscreen.goto(-475, 75)
+    startscreen.goto(-525, 75)
     startscreen.down()
     startscreen.begin_fill()
-    startscreen.goto(-425, 75)
-    startscreen.goto(-425, 25)
-    startscreen.goto(-475, 25)
     startscreen.goto(-475, 75)
+    startscreen.goto(-475, 25)
+    startscreen.goto(-525, 25)
+    startscreen.goto(-525, 75)
     startscreen.end_fill()
+
 
     startscreen.pencolor("#c97c35")
     startscreen.fillcolor("#e4974f")
     startscreen.pensize(6)
     startscreen.up()
-    startscreen.goto(-200, 200)
+    startscreen.goto(-350, 200)
     startscreen.down()
     startscreen.begin_fill()
-    startscreen.goto(-100, 200)
-    startscreen.goto(-100, 100)
-    startscreen.goto(-200, 100)
-    startscreen.goto(-200, 200)
+    startscreen.goto(-250, 200)
+    startscreen.goto(-250, 100)
+    startscreen.goto(-350, 100)
+    startscreen.goto(-350, 200)
     startscreen.end_fill()
 
     startscreen.pencolor("#3d3d3d")
     startscreen.fillcolor("#4D4D4D")
     startscreen.pensize(4)
     startscreen.up()
-    startscreen.goto(-175, 75)
+    startscreen.goto(-325, 75)
     startscreen.down()
     startscreen.begin_fill()
-    startscreen.goto(-125, 75)
-    startscreen.goto(-125, 25)
-    startscreen.goto(-175, 25)
-    startscreen.goto(-175, 75)
+    startscreen.goto(-275, 75)
+    startscreen.goto(-275, 25)
+    startscreen.goto(-325, 25)
+    startscreen.goto(-325, 75)
     startscreen.end_fill()
+
 
     startscreen.pencolor("#13335e")
     startscreen.fillcolor("#1e416e")
     startscreen.pensize(6)
     startscreen.up()
-    startscreen.goto(200, 200)
+    startscreen.goto(-50, 200)
     startscreen.down()
     startscreen.begin_fill()
-    startscreen.goto(100, 200)
-    startscreen.goto(100, 100)
-    startscreen.goto(200, 100)
-    startscreen.goto(200, 200)
+    startscreen.goto(-150, 200)
+    startscreen.goto(-150, 100)
+    startscreen.goto(-50, 100)
+    startscreen.goto(-50, 200)
     startscreen.end_fill()
 
     startscreen.pencolor("#3d3d3d")
     startscreen.fillcolor("#4D4D4D")
     startscreen.pensize(4)
     startscreen.up()
-    startscreen.goto(175, 75)
+    startscreen.goto(-75, 75)
     startscreen.down()
     startscreen.begin_fill()
-    startscreen.goto(125, 75)
-    startscreen.goto(125, 25)
-    startscreen.goto(175, 25)
-    startscreen.goto(175, 75)
+    startscreen.goto(-125, 75)
+    startscreen.goto(-125, 25)
+    startscreen.goto(-75, 25)
+    startscreen.goto(-75, 75)
     startscreen.end_fill()
 
 
@@ -310,27 +312,82 @@ def start_screen():
     startscreen.fillcolor("#c53a3a")
     startscreen.pensize(6)
     startscreen.up()
-    startscreen.goto(500, 200)
+    startscreen.goto(50, 200)
     startscreen.down()
     startscreen.begin_fill()
-    startscreen.goto(400, 200)
-    startscreen.goto(400, 100)
-    startscreen.goto(500, 100)
-    startscreen.goto(500, 200)
+    startscreen.goto(150, 200)
+    startscreen.goto(150, 100)
+    startscreen.goto(50, 100)
+    startscreen.goto(50, 200)
     startscreen.end_fill()
 
     startscreen.pencolor("#3d3d3d")
     startscreen.fillcolor("#4D4D4D")
     startscreen.pensize(4)
     startscreen.up()
-    startscreen.goto(475, 75)
+    startscreen.goto(125, 75)
     startscreen.down()
     startscreen.begin_fill()
-    startscreen.goto(425, 75)
-    startscreen.goto(425, 25)
-    startscreen.goto(475, 25)
-    startscreen.goto(475, 75)
+    startscreen.goto(75, 75)
+    startscreen.goto(75, 25)
+    startscreen.goto(125, 25)
+    startscreen.goto(125, 75)
     startscreen.end_fill()
+
+
+    startscreen.pencolor("#969696")
+    startscreen.fillcolor("#A3A3A3")
+    startscreen.pensize(6)
+    startscreen.up()
+    startscreen.goto(350, 200)
+    startscreen.down()
+    startscreen.begin_fill()
+    startscreen.goto(250, 200)
+    startscreen.goto(250, 100)
+    startscreen.goto(350, 100)
+    startscreen.goto(350, 200)
+    startscreen.end_fill()
+
+    startscreen.pencolor("#3d3d3d")
+    startscreen.fillcolor("#4D4D4D")
+    startscreen.pensize(4)
+    startscreen.up()
+    startscreen.goto(325, 75)
+    startscreen.down()
+    startscreen.begin_fill()
+    startscreen.goto(275, 75)
+    startscreen.goto(275, 25)
+    startscreen.goto(325, 25)
+    startscreen.goto(325, 75)
+    startscreen.end_fill()
+
+
+    startscreen.pencolor("#492f57")
+    startscreen.fillcolor("#523461")
+    startscreen.pensize(6)
+    startscreen.up()
+    startscreen.goto(550, 200)
+    startscreen.down()
+    startscreen.begin_fill()
+    startscreen.goto(450, 200)
+    startscreen.goto(450, 100)
+    startscreen.goto(550, 100)
+    startscreen.goto(550, 200)
+    startscreen.end_fill()
+
+    startscreen.pencolor("#3d3d3d")
+    startscreen.fillcolor("#4D4D4D")
+    startscreen.pensize(4)
+    startscreen.up()
+    startscreen.goto(525, 75)
+    startscreen.down()
+    startscreen.begin_fill()
+    startscreen.goto(475, 75)
+    startscreen.goto(475, 25)
+    startscreen.goto(525, 25)
+    startscreen.goto(525, 75)
+    startscreen.end_fill()
+
 
     startscreen.pencolor("#3d3d3d")
     startscreen.fillcolor("#4D4D4D")
@@ -357,34 +414,49 @@ def start_screen():
     
     def click(x, y):
         global theme, color_1, color_2, pale_color_1, pale_color_2, bright_color_1, bright_color_2
-        if x < -400 and x > -500 and y > 100 and y < 200:
+        if x < -450 and x > -550 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
-            startscreen_2.goto(-450, 50)
+            startscreen_2.goto(-500, 50)
             startscreen_2.down()
             theme = "green"
             startscreen_2.dot(25)
-        elif x < -100 and x > -200 and y > 100 and y < 200:
+        elif x < -250 and x > -350 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
-            startscreen_2.goto(-150, 50)
+            startscreen_2.goto(-300, 50)
             startscreen_2.down()
             theme = "orange"
             startscreen_2.dot(25)
-        elif x < 200 and x > 100 and y > 100 and y < 200:
+        elif x < -50 and x > -150 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
-            startscreen_2.goto(150, 50)
+            startscreen_2.goto(-100, 50)
             startscreen_2.down()
             theme = "blue"
             startscreen_2.dot(25)
-        elif x < 500 and x > 400 and y > 100 and y < 200:
+        elif x < 150 and x > 50 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
-            startscreen_2.goto(450, 50)
+            startscreen_2.goto(100, 50)
             startscreen_2.down()
             theme = "red"
             startscreen_2.dot(25)
+        elif x < 350 and x > 250 and y > 100 and y < 200:
+            startscreen_2.clear()
+            startscreen_2.up()
+            startscreen_2.goto(300, 50)
+            startscreen_2.down()
+            theme = "white"
+            startscreen_2.dot(25)
+        elif x < 550 and x > 450 and y > 100 and y < 200:
+            startscreen_2.clear()
+            startscreen_2.up()
+            startscreen_2.goto(500, 50)
+            startscreen_2.down()
+            theme = "violet"
+            startscreen_2.dot(25)
+
         elif x < 170 and x > -170 and y > -250 and y < -150:
             if theme == "green":
                 color_1 = "#0d3b31"
@@ -414,10 +486,25 @@ def start_screen():
                 pale_color_2 = "#a55555"
                 bright_color_1 = "#b93737"
                 bright_color_2 = "#d65252"
+            elif theme == "white":
+                color_1 = "#969696"
+                color_2 = "#A3A3A3"
+                pale_color_1 = "#646464"
+                pale_color_2 = "#6D6D6D"
+                bright_color_1 = "#b4b4b4"
+                bright_color_2 = "#cccccc"
+            elif theme == "violet":
+                color_1 = "#492f57"
+                color_2 = "#523461"
+                pale_color_1 = "#52415C"
+                pale_color_2 = "#5B4B64"
+                bright_color_1 = "#68387E"
+                bright_color_2 = "#8440A7"
             if theme:
                 startscreen.clear()
                 startscreen_2.clear()
                 start()   
+
 
 
     win.onclick(click, 1)
@@ -1559,7 +1646,7 @@ def start():
     #========== <function to check if the top graph is complete> / <функция для проверки заавершения верхнего графика> \/\/\/
     def end_upper_graph():
         global isend_upper_graph
-        if len(price_list) == 60:
+        if len(price_list) == 5:
             if is_real_time_graph:            
                 isend_upper_graph = 'upper_graph_end'
             else:
@@ -1694,3 +1781,5 @@ def start():
 
 win.mainloop()
 
+
+# из за того что BASE_PRICE определяется вначале появляется разница между началом и стартом программы
