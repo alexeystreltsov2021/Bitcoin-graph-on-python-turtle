@@ -56,6 +56,8 @@ min_price_text_line.hideturtle()
 startscreen.hideturtle()
 startscreen_2.hideturtle()
 
+startscreen.shape("turtle")
+startscreen.shapesize(15)
 
 static_text.up()
 time_text.up()
@@ -66,6 +68,10 @@ price_line_text.up()
 max_price_text_line.up()
 min_price_text_line.up()
 
+startscreen.up()
+startscreen.goto(-590, 250)
+startscreen.speed(0)
+
 startscreen_2.speed(0)
 
 
@@ -74,11 +80,26 @@ price_lines.pencolor("#858585")
 price_line_text.pencolor("#858585")
 
 
+
+
+#==================== <constants> / <константы> \/\/\/
+#======== <number of blocks in the lower graph> / <количество блоков нажнего графика>
+LOWER_GRAPH_BLOCKS = 60
+
+#======== <number of segments in the upper graph> / <количество сегментов верхнего графика>
+UPPER_GRAPH_SEGMENTS = 60
+
+#======== <delay between segments of the upper graph> / <задержка между сегментами верхнего графика>
+TIME_INTERVAL_FOR_ONE_SEGMENT = 1000
+
+BLOCK_WIDTH = 1200/LOWER_GRAPH_BLOCKS
+SEGMENT_WIDTH = 1140/UPPER_GRAPH_SEGMENTS
+
+UPPER_GRAPH_X = -620
+LOWER_GRAPH_X = -650
+
 #==================== <variables> / <переменные> \/\/\/
 dollars_for_pixel = 0.05
-
-upper_graph_x = -620
-lower_graph_x = -650
 
 isend_upper_graph = None
 is_real_time_graph = True
@@ -99,29 +120,11 @@ theme = None
 
 #==================== <version> / <версия> \/\/\/
 
-VERSION = "version 1.0.2"
+VERSION = "version 1.0.3"
 
 #==================== <start screen> / <стартовый экран> \/\/\/
 def start_screen():
-    startscreen.shape("turtle")
-    startscreen.shapesize(15)
-
-    startscreen.pencolor("#383838")
-    startscreen.dot(10000)
-    startscreen.pencolor("#303030")
-    startscreen.dot(1500)
-    startscreen.pencolor("#2B2B2B")
-    startscreen.dot(1200)
-    startscreen.pencolor("#272727")
-    startscreen.dot(750)
-    startscreen.pencolor("#242424")
-    startscreen.dot(300)
-
-
-    startscreen.up()
-    startscreen.goto(-590, 250)
-    startscreen.speed(0)
-
+    #========== <the inscription "BITCOIN GRAPH 3"> / <надпись "BITCOIN GRAPH 3"> \/\/\/
     startscreen.pencolor("#000000")
     startscreen.write("B", font = ("Times New Roman" , 100))
     startscreen.forward(90)
@@ -149,12 +152,15 @@ def start_screen():
     startscreen.forward(140)
     startscreen.write("3", font = ("Times New Roman" , 100))
 
+    #========== <delay> / <задержка> \/\/\/
     startscreen.speed(5)
 
+    #========== <preparing> / <подготовка> \/\/\/
     startscreen.up()
     startscreen.goto(-630, 100)
     startscreen.speed(0)
 
+    #========== <the inscription "POWERED BY TURTLE"> / <надпись "POWERED BY TURTLE"> \/\/\/
     startscreen.pencolor("#000000")
     startscreen.write("P", font = ("Times New Roman" , 85))
     startscreen.forward(70)
@@ -186,10 +192,10 @@ def start_screen():
     startscreen.forward(70)
     startscreen.write("E", font = ("Times New Roman" , 85))
 
-
+    #========== <preparing> / <подготовка> \/\/\/
     time.sleep(1)
 
-
+    #========== <version display> / <отображение версии> \/\/\/
     win.tracer(0)
     startscreen.pencolor("#000000")
     startscreen.up()
@@ -201,13 +207,13 @@ def start_screen():
     startscreen.showturtle()
     win.tracer(1)
 
+    #========== <delay> / <задержка> \/\/\/
     time.sleep(2)
 
     win.tracer(0)
 
-    startscreen.up()
-    startscreen.goto(0,0)
-    startscreen.down()
+
+    #========== <background> / <задний фон> \/\/\/
     startscreen.pencolor("#383838")
     startscreen.dot(10000)
     startscreen.pencolor("#303030")
@@ -218,16 +224,19 @@ def start_screen():
     startscreen.dot(750)
     startscreen.pencolor("#242424")
     startscreen.dot(300)
-    startscreen.hideturtle()
 
+    #========== <version display> / <отображение версии> \/\/\/
     startscreen.up()
     startscreen.pencolor("#000000")
     startscreen.goto(-650, -445)
     startscreen.write(VERSION, font = ("Times New Roman" , 25))
 
+    #========== <the inscription "Select theme:"> / <надпись "Select theme:"> \/\/\/
     startscreen.goto(-630, 320)
     startscreen.write("Select theme:", font = ("Times New Roman" , 80))
 
+
+    #========== <green theme block> / <блок зеленой темы> \/\/\/
     startscreen.pencolor("#0d3b31")
     startscreen.fillcolor("#145f4f")
     startscreen.pensize(6)
@@ -254,7 +263,8 @@ def start_screen():
     startscreen.end_fill()
 
 
-    startscreen.pencolor("#c97c35")
+    #========== <orange theme block> / <блок оранжевой темы> \/\/\/
+    startscreen.pencolor("#d68a43")
     startscreen.fillcolor("#e4974f")
     startscreen.pensize(6)
     startscreen.up()
@@ -281,6 +291,7 @@ def start_screen():
     startscreen.end_fill()
 
 
+    #========== <blue theme block> / <блок синей темы> \/\/\/
     startscreen.pencolor("#13335e")
     startscreen.fillcolor("#1e416e")
     startscreen.pensize(6)
@@ -308,6 +319,7 @@ def start_screen():
     startscreen.end_fill()
 
 
+    #========== <green violet block> / <блок фиолетовой темы> \/\/\/
     startscreen.pencolor("#492f57")
     startscreen.fillcolor("#523461")
     startscreen.pensize(6)
@@ -335,6 +347,7 @@ def start_screen():
     startscreen.end_fill()
 
 
+    #========== <green red block> / <блок красной темы> \/\/\/
     startscreen.pencolor("#af2929")
     startscreen.fillcolor("#c53a3a")
     startscreen.pensize(6)
@@ -362,6 +375,7 @@ def start_screen():
     startscreen.end_fill()
 
 
+    #========== <green white block> / <блок белой темы> \/\/\/
     startscreen.pencolor("#969696")
     startscreen.fillcolor("#A3A3A3")
     startscreen.pensize(6)
@@ -389,6 +403,8 @@ def start_screen():
     startscreen.end_fill()
 
 
+    #========== <start button> / <кнопка старт> \/\/\/
+    #===== <block> / <основа> \/\/\/
     startscreen.pencolor("#3d3d3d")
     startscreen.fillcolor("#4D4D4D")
     startscreen.pensize(4)
@@ -402,6 +418,7 @@ def start_screen():
     startscreen.goto(-170, -150)
     startscreen.end_fill()
 
+    #===== <text> / <текст> \/\/\/
     startscreen.pencolor("#000000")
     startscreen.up()
     startscreen.goto(-160, -260)
@@ -409,11 +426,12 @@ def start_screen():
 
     win.tracer(1)
 
-
     startscreen_2.pencolor("#3d3d3d")
-    
+
+    #========== <click test> / <проверка нажатия> \/\/\/
     def click(x, y):
         global theme, color_1, color_2, pale_color_1, pale_color_2, bright_color_1, bright_color_2
+        #===== <green theme selection check> / <проверка на выбор зеленой темы> \/\/\/
         if x < -450 and x > -550 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
@@ -421,6 +439,7 @@ def start_screen():
             startscreen_2.down()
             theme = "green"
             startscreen_2.dot(25)
+        #===== <orange theme selection check> / <проверка на выбор оранжевой темы> \/\/\/
         elif x < -250 and x > -350 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
@@ -428,6 +447,7 @@ def start_screen():
             startscreen_2.down()
             theme = "orange"
             startscreen_2.dot(25)
+        #===== <blue theme selection check> / <проверка на выбор синей темы> \/\/\/
         elif x < -50 and x > -150 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
@@ -435,6 +455,7 @@ def start_screen():
             startscreen_2.down()
             theme = "blue"
             startscreen_2.dot(25)
+        #===== <violet theme selection check> / <проверка на выбор фиолетовой темы> \/\/\/
         elif x < 150 and x > 50 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
@@ -442,6 +463,7 @@ def start_screen():
             startscreen_2.down()
             theme = "violet"
             startscreen_2.dot(25)
+        #===== <red theme selection check> / <проверка на выбор красной темы> \/\/\/
         elif x < 350 and x > 250 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
@@ -449,6 +471,7 @@ def start_screen():
             startscreen_2.down()
             theme = "red"
             startscreen_2.dot(25)
+        #===== <white theme selection check> / <проверка на выбор белой темы> \/\/\/
         elif x < 550 and x > 450 and y > 100 and y < 200:
             startscreen_2.clear()
             startscreen_2.up()
@@ -457,6 +480,7 @@ def start_screen():
             theme = "white"
             startscreen_2.dot(25)
 
+        #===== <theme installation> / <установка темы> \/\/\/
         elif x < 170 and x > -170 and y > -250 and y < -150:
             if theme == "green":
                 color_1 = "#0d3b31"
@@ -466,9 +490,9 @@ def start_screen():
                 bright_color_1 = "#125042"
                 bright_color_2 = "#1b866f"      
             elif theme == "orange":
-                color_1 = "#c97c35"
+                color_1 = "#d68a43"
                 color_2 = "#e4974f"
-                pale_color_1 = "#917459"
+                pale_color_1 = "#9C7B5C"
                 pale_color_2 = "#B8906B"
                 bright_color_1 = "#df8c3f"
                 bright_color_2 = "#ebac71"
@@ -514,7 +538,7 @@ start_screen()
 
 
 def start():
-    global BASE_PRICE, upper_graph_x, lower_graph_x, max_price, min_price, dollars_for_pixel, isend_upper_graph, is_real_time_graph, navigating, start_page_time, current_time, price_matrix_index, price_matrix, price_list, blocks_edges, times_list
+    global BASE_PRICE, UPPER_GRAPH_X, LOWER_GRAPH_X, max_price, min_price, dollars_for_pixel, isend_upper_graph, is_real_time_graph, navigating, start_page_time, current_time, price_matrix_index, price_matrix, price_list, blocks_edges, times_list
     #==================== <determining the starting price> / <оперделение старовой цены> \/\/\/
     while not BASE_PRICE:
         try:
@@ -953,6 +977,7 @@ def start():
 
     #========== <function to update the persent text> / <функция для обновления текста с процентом> \/\/\/
     def update_percent(price):
+
         price_percent.clear()
         present = (price - BASE_PRICE)/BASE_PRICE*100
 
@@ -972,7 +997,7 @@ def start():
 
     #========== <function to draw segment of upper graph> / <функция для отрисовки сегмента верхнего графика> \/\/\/
     def draw_upper_graph(last_price, price):
-            global upper_graph_x
+            global UPPER_GRAPH_X
 
 
             if is_real_time_graph:
@@ -988,14 +1013,14 @@ def start():
                     return 'autoscaling'
 
                 #===== <draw segment> / <отрисовка сегмента> \/\/\/
-                upper_graph_x += 19
-                upper_graph.goto(upper_graph_x, y)
+                UPPER_GRAPH_X += SEGMENT_WIDTH
+                upper_graph.goto(UPPER_GRAPH_X, y)
 
 
 
     #========== <function to draw segment of lower graph> / <функция для отрисовки сегмента нижнего графика> \/\/\/
     def draw_lower_graph():
-            global lower_graph_x, blocks_edges, start_page_time
+            global LOWER_GRAPH_X, blocks_edges, start_page_time
 
 
             #===== <data preparation> / <подготовка данных> \/\/\/
@@ -1035,7 +1060,7 @@ def start():
             times_list.append([start_page_time, current_time])
 
             #===== <adding data to the block hitbox list> / <добавление данных в список хитбоксов блоков> \/\/\/
-            edges = [lower_graph_x, lower_graph_x + 20, min_y_hitbox, max_y_hitbox, times_list[-1]]
+            edges = [LOWER_GRAPH_X, LOWER_GRAPH_X + BLOCK_WIDTH, min_y_hitbox, max_y_hitbox, times_list[-1]]
             blocks_edges.append(edges)
 
             start_page_time = current_time
@@ -1043,25 +1068,25 @@ def start():
             #===== <draw block> / <отрисовка блока> \/\/\/
             lower_graph.pencolor(color)
             lower_graph.up()
-            lower_graph.goto(lower_graph_x + 10, max_y)
+            lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH/2, max_y)
             lower_graph.down()
-            lower_graph.goto(lower_graph_x + 10, min_y)
+            lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH/2, min_y)
 
             lower_graph.up()
-            lower_graph.goto(lower_graph_x, y1)
+            lower_graph.goto(LOWER_GRAPH_X, y1)
 
             lower_graph.pencolor('#000000')
             lower_graph.fillcolor(color)        
 
             lower_graph.begin_fill()
             lower_graph.down()   
-            lower_graph.goto(lower_graph_x, y2)
-            lower_graph.goto(lower_graph_x + 20, y2)
-            lower_graph.goto(lower_graph_x + 20, y1)
-            lower_graph.goto(lower_graph_x, y1)
+            lower_graph.goto(LOWER_GRAPH_X, y2)
+            lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH, y2)
+            lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH, y1)
+            lower_graph.goto(LOWER_GRAPH_X, y1)
             lower_graph.end_fill()
 
-            lower_graph_x += 20
+            LOWER_GRAPH_X += BLOCK_WIDTH
 
             #====== <Bugfix for the maximum and minimum price lines> / <багфикс линий максимальной и минимальной цены> \/\/\/
             if len(price_matrix) == 1:
@@ -1073,14 +1098,14 @@ def start():
 
     #========== <function to redraw the page of upper graph> / <функция для перерисовки страницы верхнего графика> \/\/\/
     def redraw_prices(prices, start_y, prev_last = BASE_PRICE):
-        global upper_graph_x
+        global UPPER_GRAPH_X
 
         #===== <preparing> / <подготовка> \/\/\/
-        upper_graph_x = -620
+        UPPER_GRAPH_X = -620
         upper_graph.clear()
 
         upper_graph.up()
-        upper_graph.goto(upper_graph_x, start_y)
+        upper_graph.goto(UPPER_GRAPH_X, start_y)
         upper_graph.down()
 
 
@@ -1097,17 +1122,17 @@ def start():
             #=== <draw segment> / <отрисовка сегмента> \/\/\/
             y = 180 + (price - BASE_PRICE)/dollars_for_pixel
 
-            upper_graph_x += 19
-            upper_graph.goto(upper_graph_x, y)
+            UPPER_GRAPH_X += SEGMENT_WIDTH
+            upper_graph.goto(UPPER_GRAPH_X, y)
 
 
 
     #========== <function to redraw lower graph> / <функция для перерисовки нижнего графика> \/\/\/
     def redraw_lower_graph():
-        global lower_graph_x
+        global LOWER_GRAPH_X
 
         #===== <preparing> / <подготовка> \/\/\/
-        lower_graph_x = -650
+        LOWER_GRAPH_X = -650
 
         lower_graph.clear()
 
@@ -1138,25 +1163,25 @@ def start():
             #=== <draw block> / <отрисовка блока> \/\/\/
             lower_graph.pencolor(color)
             lower_graph.up()
-            lower_graph.goto(lower_graph_x + 10, max_y)
+            lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH/2, max_y)
             lower_graph.down()
-            lower_graph.goto(lower_graph_x + 10, min_y)
+            lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH/2, min_y)
 
             lower_graph.pencolor('#000000')
             lower_graph.fillcolor(color)
 
             lower_graph.up()
-            lower_graph.goto(lower_graph_x, y1)
+            lower_graph.goto(LOWER_GRAPH_X, y1)
 
             lower_graph.begin_fill()
             lower_graph.down()        
-            lower_graph.goto(lower_graph_x, y2)
-            lower_graph.goto(lower_graph_x + 20, y2)
-            lower_graph.goto(lower_graph_x + 20, y1)
-            lower_graph.goto(lower_graph_x, y1)
+            lower_graph.goto(LOWER_GRAPH_X, y2)
+            lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH, y2)
+            lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH, y1)
+            lower_graph.goto(LOWER_GRAPH_X, y1)
             lower_graph.end_fill()
 
-            lower_graph_x += 20
+            LOWER_GRAPH_X += BLOCK_WIDTH
 
 
     #========== <function to redraw the live button> / <функция для перерисовки кнопки live> \/\/\/
@@ -1165,9 +1190,9 @@ def start():
         back_to_live_palet.clear()
 
         #===== <draw button> / <отрисовка кнопки> \/\/\/
-        if len(price_matrix) != 60:
+        if len(price_matrix) != LOWER_GRAPH_BLOCKS:
             back_to_live_palet.up()
-            back_to_live_palet.goto(lower_graph_x, -210)
+            back_to_live_palet.goto(LOWER_GRAPH_X, -200)
             back_to_live_palet.down()
 
             #=== <button color definition> / <определение цвета кнопки> \/\/\/
@@ -1181,29 +1206,29 @@ def start():
 
             #=== <redrawing> / <перерисовка> \/\/\/
             back_to_live_palet.begin_fill()
-            back_to_live_palet.goto(lower_graph_x + 20, -210)
-            back_to_live_palet.goto(lower_graph_x + 20, -300)
-            back_to_live_palet.goto(lower_graph_x, -300)
-            back_to_live_palet.goto(lower_graph_x, -210)
+            back_to_live_palet.goto(LOWER_GRAPH_X + 20, -200)
+            back_to_live_palet.goto(LOWER_GRAPH_X + 20, -280)
+            back_to_live_palet.goto(LOWER_GRAPH_X, -280)
+            back_to_live_palet.goto(LOWER_GRAPH_X, -200)
             back_to_live_palet.end_fill()
 
 
             #=== <redrawing text> / <перерисовка текста> \/\/\/
             back_to_live_palet.up()
-            back_to_live_palet.goto(lower_graph_x + 5, -235)
+            back_to_live_palet.goto(LOWER_GRAPH_X + 5, -221)
             back_to_live_palet.write("L", font = ("Times New Roman" , 14, "bold"))
-            back_to_live_palet.goto(lower_graph_x + 7, -255)
+            back_to_live_palet.goto(LOWER_GRAPH_X + 7, -241)
             back_to_live_palet.write("I", font = ("Times New Roman" , 14, "bold"))
-            back_to_live_palet.goto(lower_graph_x + 4, -275)
+            back_to_live_palet.goto(LOWER_GRAPH_X + 4, -261)
             back_to_live_palet.write("V", font = ("Times New Roman" , 14, "bold"))
-            back_to_live_palet.goto(lower_graph_x + 5, -295)
+            back_to_live_palet.goto(LOWER_GRAPH_X + 5, -281)
             back_to_live_palet.write("E", font = ("Times New Roman" , 14, "bold"))
 
 
 
     #========== <function for changing the scale of a graph> / <функция для изменения масштаба графика> \/\/\/
     def autoscaling():
-        global dollars_for_pixel, upper_graph_x, lower_graph_x
+        global dollars_for_pixel, UPPER_GRAPH_X, LOWER_GRAPH_X
 
         #===== <checking for the need for autoscaling> / <проверка на необходимость автомасштабирования> \/\/\/
         if (upper_graph.ycor() >= 385 or upper_graph.ycor() <= -25) or ((180 + (price_list[-1] - BASE_PRICE)/dollars_for_pixel) >= 385 or (180 + (price_list[-1] - BASE_PRICE)/dollars_for_pixel) <= -30):
@@ -1212,7 +1237,7 @@ def start():
             lower_graph.clear()
             price_line_text.clear()
 
-            upper_graph_x = -620
+            UPPER_GRAPH_X = -620
 
             #===== <changes in scale> / <изменеия масштаба> \/\/\/
             if dollars_for_pixel == 0.05:
@@ -1245,7 +1270,7 @@ def start():
                 last_price = BASE_PRICE if not price_matrix else price_matrix[-1][-1]
 
                 upper_graph.up()
-                upper_graph.goto(upper_graph_x, 180 + (last_price - BASE_PRICE)/dollars_for_pixel)
+                upper_graph.goto(UPPER_GRAPH_X, 180 + (last_price - BASE_PRICE)/dollars_for_pixel)
                 upper_graph.down()
 
                 #=== <redrawing> / <перерисовка> \/\/\/
@@ -1267,8 +1292,8 @@ def start():
                         autoscaling()
 
                     #== <draw segment> / <отрисовка сегмента> \/\/\/
-                    upper_graph_x += 19
-                    upper_graph.goto(upper_graph_x, y)
+                    UPPER_GRAPH_X += SEGMENT_WIDTH
+                    upper_graph.goto(UPPER_GRAPH_X, y)
 
             #===== <if the program is in history mode> / <если программа в режиме истории> \/\/\/
             else:
@@ -1276,7 +1301,7 @@ def start():
                 first_price = price_matrix[price_matrix_index][0]
 
                 upper_graph.up()
-                upper_graph.goto(upper_graph_x, 180 + (first_price - BASE_PRICE)/dollars_for_pixel)
+                upper_graph.goto(UPPER_GRAPH_X, 180 + (first_price - BASE_PRICE)/dollars_for_pixel)
                 upper_graph.down()
 
                 #=== <redrawing> / <перерисовка> \/\/\/
@@ -1298,13 +1323,13 @@ def start():
                         autoscaling()
 
                     #== <draw segment> / <отрисовка сегмента> \/\/\/
-                    upper_graph_x += 19
-                    upper_graph.goto(upper_graph_x, y)
+                    UPPER_GRAPH_X += SEGMENT_WIDTH
+                    upper_graph.goto(UPPER_GRAPH_X, y)
 
             #===== <if there are blocks in the lower graph> / <если есть блоки нижнего графика> \/\/\/
             if price_matrix:
                 #=== <preparing> / <подготовка> \/\/\/
-                lower_graph_x = -650
+                LOWER_GRAPH_X = -650
                 blocks_edges.clear()
 
                 #=== <redrawing> / <перерисовка> \/\/\/
@@ -1342,32 +1367,32 @@ def start():
                         min_y_hitbox -= additional_hitxob
 
                     #== <adding data to the block hitbox list> / <добавление данных в список хитбоксов блоков> \/\/\/
-                    edges = [lower_graph_x, lower_graph_x + 20, min_y_hitbox, max_y_hitbox, times_list[i]]
+                    edges = [LOWER_GRAPH_X, LOWER_GRAPH_X + BLOCK_WIDTH, min_y_hitbox, max_y_hitbox, times_list[i]]
                     blocks_edges.append(edges)
 
 
                     #== <draw block> / <отрисовка блока> \/\/\/
                     lower_graph.pencolor(color)
                     lower_graph.up()
-                    lower_graph.goto(lower_graph_x + 10, max_y)
+                    lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH/2, max_y)
                     lower_graph.down()
-                    lower_graph.goto(lower_graph_x + 10, min_y)
+                    lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH/2, min_y)
 
                     lower_graph.pencolor('#000000')
                     lower_graph.fillcolor(color)
 
                     lower_graph.up()
-                    lower_graph.goto(lower_graph_x, y1)
+                    lower_graph.goto(LOWER_GRAPH_X, y1)
 
                     lower_graph.begin_fill()
                     lower_graph.down()        
-                    lower_graph.goto(lower_graph_x, y2)
-                    lower_graph.goto(lower_graph_x + 20, y2)
-                    lower_graph.goto(lower_graph_x + 20, y1)
-                    lower_graph.goto(lower_graph_x, y1)
+                    lower_graph.goto(LOWER_GRAPH_X, y2)
+                    lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH, y2)
+                    lower_graph.goto(LOWER_GRAPH_X + BLOCK_WIDTH, y1)
+                    lower_graph.goto(LOWER_GRAPH_X, y1)
                     lower_graph.end_fill()
 
-                    lower_graph_x += 20
+                    LOWER_GRAPH_X += BLOCK_WIDTH
 
             #===== <updating the maximum and minimum prices> / <обновление максимальной и мнинимальной цены> \/\/\/
             update_max_price(max_price)
@@ -1504,22 +1529,6 @@ def start():
     def on_click(x, y):
         global price_matrix_index, is_real_time_graph, navigating
 
-        #===== <click on candle> / <клик по свече> \/\/\/
-        if price_matrix:
-            
-            for i in range(len(blocks_edges)):
-                #=== <hitbox hit check> / <проверка на поподание в хитбокс> \/\/\/
-                if (x > blocks_edges[i][0] and x < blocks_edges[i][1]) and (y > blocks_edges[i][2] and y < blocks_edges[i][3]):
-                    if i + 1 != 2:
-                        is_real_time_graph = False
-
-                    #=== <drawing the history page> / <отрисовка страници истории> \/\/\/
-                    win.tracer(0)
-                    go_to_history_page(i)
-                    update_interface()
-                    win.tracer(1)
-
-                    return
 
         if navigating:
             return
@@ -1527,6 +1536,25 @@ def start():
 
 
         try:
+            #===== <click on candle> / <клик по свече> \/\/\/
+            if price_matrix:
+                for i in range(len(blocks_edges)):
+                    #=== <hitbox hit check> / <проверка на поподание в хитбокс> \/\/\/
+                    if (x > blocks_edges[i][0] and x < blocks_edges[i][1]) and (y > blocks_edges[i][2] and y < blocks_edges[i][3]):
+                        if i + 1 != LOWER_GRAPH_BLOCKS:
+                            is_real_time_graph = False
+                        else:
+                            is_real_time_graph = True
+
+                        #=== <drawing the history page> / <отрисовка страници истории> \/\/\/
+                        win.tracer(0)
+                        go_to_history_page(i)
+                        update_interface()
+                        win.tracer(1)
+
+                        return
+
+
             #===== <click on the arrow> / <клик по стрелке> \/\/\/
             #=== <click on the left arrow> / <клик по стрелке влево> \/\/\/
             #== <hitbox hit check> / <проверка на поподание в хитбокс> \/\/\/
@@ -1596,7 +1624,7 @@ def start():
                         win.tracer(1)
 
             #===== <click on the back to live button> / <клик по конпке возврата в live> \/\/\/
-            elif x > lower_graph_x and x < lower_graph_x + 20 and y > -300 and y < -210:
+            elif x > LOWER_GRAPH_X and x < LOWER_GRAPH_X + 20 and y > -300 and y < -210:
                 if not is_real_time_graph:
                     if len(price_matrix) != 60:
 
@@ -1623,9 +1651,6 @@ def start():
     def go_to_history_page(page):
         global is_real_time_graph, price_matrix_index, navigating
                     
-        if navigating:
-            return
-        navigating = True
 
         price_matrix_index = page
 
@@ -1638,7 +1663,6 @@ def start():
         redraw_prices(prices = prices, start_y = start_y, prev_last = prev_last)
         redraw_lower_graph()
 
-        navigating = False
 
         update_price(price_list[-1] if price_list else None)
 
@@ -1646,7 +1670,7 @@ def start():
     #========== <function to check if the top graph is complete> / <функция для проверки заавершения верхнего графика> \/\/\/
     def end_upper_graph():
         global isend_upper_graph
-        if len(price_list) == 60:
+        if len(price_list) == UPPER_GRAPH_SEGMENTS:
             if is_real_time_graph:            
                 isend_upper_graph = 'upper_graph_end'
             else:
@@ -1660,10 +1684,9 @@ def start():
     redraw_back_to_live_palet()
     win.tracer(1)
 
-
     #==================== <function main> / <главная функция> \/\/\/
     def main():
-        global price_matrix, price_list, upper_graph_x, max_price, min_price, price_matrix_index, isend_upper_graph, current_time
+        global price_matrix, price_list, UPPER_GRAPH_X, max_price, min_price, price_matrix_index, isend_upper_graph, current_time
         try:
             win.tracer(0)
 
@@ -1673,7 +1696,7 @@ def start():
             if isend_upper_graph == 'upper_graph_end':
                 price_matrix.append(price_list.copy())
 
-                if len(price_matrix) == 60:
+                if len(price_matrix) == LOWER_GRAPH_BLOCKS:
                     print('end')
                     draw_lower_graph()
                     update_max_price(max_price)
@@ -1692,10 +1715,10 @@ def start():
                 isend_upper_graph = None
 
 
-                upper_graph_x = -620
+                UPPER_GRAPH_X = -620
 
                 upper_graph.up()                
-                upper_graph.goto(upper_graph_x, upper_graph.ycor())
+                upper_graph.goto(UPPER_GRAPH_X, upper_graph.ycor())
                 upper_graph.down()
 
                 price_matrix_index += 1
@@ -1705,7 +1728,7 @@ def start():
             elif isend_upper_graph == 'upper_graph_end_in_history':
                 price_matrix.append(price_list.copy())
 
-                if len(price_matrix) == 60:
+                if len(price_matrix) == LOWER_GRAPH_BLOCKS:
                     draw_lower_graph()
                     update_max_price(max_price)
                     update_min_price(min_price)
@@ -1727,7 +1750,7 @@ def start():
 
             #========== <graph update> / <обновление графика> \/\/\/
             if price == -1:
-                win.ontimer(main, 1000)
+                win.ontimer(main, 100)
                 return
             else:
                 price_list.append(price)    
@@ -1738,7 +1761,7 @@ def start():
                     else:
                         is_autoscaling = draw_upper_graph(price_list[-2], price_list[-1])
 
-                        if is_autoscaling == 'autoscaling': #это багфикс
+                        if is_autoscaling == 'autoscaling':
                             autoscaling()
                     
                 autoscaling()
@@ -1762,7 +1785,7 @@ def start():
 
 
             #========== <recursive call> / <рекурсивный вызов> \/\/\/
-            win.ontimer(main, 1000)
+            win.ontimer(main, TIME_INTERVAL_FOR_ONE_SEGMENT)
 
 
         #========== <error handling> / <обработка ошибок> \/\/\/
@@ -1781,5 +1804,3 @@ def start():
 
 win.mainloop()
 
-
-# из за того что BASE_PRICE определяется вначале появляется разница между началом и стартом программы
