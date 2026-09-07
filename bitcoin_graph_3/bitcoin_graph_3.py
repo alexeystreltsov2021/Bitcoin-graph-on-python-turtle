@@ -68,10 +68,6 @@ price_line_text.up()
 max_price_text_line.up()
 min_price_text_line.up()
 
-startscreen.up()
-startscreen.goto(-590, 250)
-startscreen.speed(0)
-
 startscreen_2.speed(0)
 
 
@@ -124,6 +120,23 @@ VERSION = "version 1.0.3"
 
 #==================== <start screen> / <стартовый экран> \/\/\/
 def start_screen():
+    #========== <background> / <задний фон> \/\/\/
+    startscreen.pencolor("#383838")
+    startscreen.dot(10000)
+    startscreen.pencolor("#303030")
+    startscreen.dot(1500)
+    startscreen.pencolor("#2B2B2B")
+    startscreen.dot(1200)
+    startscreen.pencolor("#272727")
+    startscreen.dot(750)
+    startscreen.pencolor("#242424")
+    startscreen.dot(300)
+
+
+    startscreen.up()
+    startscreen.goto(-590, 250)
+    startscreen.speed(0)
+
     #========== <the inscription "BITCOIN GRAPH 3"> / <надпись "BITCOIN GRAPH 3"> \/\/\/
     startscreen.pencolor("#000000")
     startscreen.write("B", font = ("Times New Roman" , 100))
@@ -211,6 +224,7 @@ def start_screen():
     time.sleep(2)
 
     win.tracer(0)
+    startscreen.hideturtle()
 
 
     #========== <background> / <задний фон> \/\/\/
