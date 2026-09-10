@@ -1,16 +1,5 @@
 РУССКИЙ ================ \/\/\/
 
-Для запуска программы:
-
-1. Создайте новую папку для этого графика
-
-2. Переместите файлы из папки bitcoin_graph_3 этого репозитория в свою папку
-
-3. Перед запуском убедитесь, что текущая директория — ваша папка
-
-4. Запустите программу
-
-
 Нстройка программы:
 
 1. Для изменения промежутка времени между запросами на получение цены в разделе "константы" измените константу "TIME_INTERVAL_FOR_ONE_SEGMENT".
@@ -26,15 +15,18 @@
 Дополнительно: Не советуется менять LOWER_GRAPH_X и UPPER_GRAPH_X, так как программа может сломатся (не упадет с ошибкой, а будет отображатся некоректно)
 
 
-
 ENNGLISH ================ \/\/\/
 
-To run the program:
+Program Configuration:
 
-1.Create a new folder for this chart
+1. To change the time interval between price requests, modify the TIME_INTERVAL_FOR_ONE_SEGMENT constant in the "Constants" section.
+!!!IMPORTANT!!! 1000 = 1 second, but in reality the delay between request and response can be 1 second or more. 
+Account for this when configuring program runtime.
 
-2.Move the files from the bitcoin_graph_3 folder of this repository into your folder
+2. You can change the number of upper graph segments by modifying the UPPER_GRAPH_SEGMENTS constant in the "Constants" section.
+!!!IMPORTANT!!! Setting a small value may make the program look "stretched" and less visually appealing.
 
-3.Before running, make sure the current directory is your folder
+3. You can change the number of lower graph blocks by modifying the LOWER_GRAPH_BLOCKS constant in the "Constants" section.
+!!!IMPORTANT!!! Setting a small value may make the program look "stretched" and less visually appealing.
 
-4.Run the program
+Additional: Changing LOWER_GRAPH_X and UPPER_GRAPH_X is not recommended, as the program may display incorrectly (it won't crash with an error, but will render improperly).
