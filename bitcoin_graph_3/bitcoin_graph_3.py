@@ -10,10 +10,6 @@ win.setup(width = 1320,height = 910)
 win._root.resizable(False,False)
 win._root.title('ГРАФИК БИТКОИНА')
 
-img = tk.PhotoImage(file='bitcoin_graph_3_icon.png')
-win._root.iconphoto(False, img)
-
-
 #==================== <set turtels> / <создание черепах> \/\/\/
 interface_lines = t.Turtle()
 interface_palets = t.Turtle()
@@ -116,7 +112,7 @@ theme = None
 
 #==================== <version> / <версия> \/\/\/
 
-VERSION = "version 1.0.3"
+VERSION = "version 1.0.4"
 
 #==================== <start screen> / <стартовый экран> \/\/\/
 def start_screen():
@@ -228,6 +224,7 @@ def start_screen():
 
 
     #========== <background> / <задний фон> \/\/\/
+    startscreen.goto(0,0)
     startscreen.pencolor("#383838")
     startscreen.dot(10000)
     startscreen.pencolor("#303030")
@@ -745,6 +742,8 @@ def start():
     MASHTAB_1 = 180 / BASE_PRICE
     MASHTAB_2 = -240 / BASE_PRICE
 
+    font_size = 10
+
     #===== <lines for upper graph> / <линии для верхнего графика> \/\/\/
     #=== <from the center of the upper graph down> / <от центра верхнего графика вниз> \/\/\/
     for i in range(11):
@@ -753,7 +752,7 @@ def start():
         price_lines.down()
         price_lines.goto(575, BASE_PRICE*MASHTAB_1 - i*20)
         price_line_text.goto(580, BASE_PRICE*MASHTAB_1 - i*20 - 8)
-        price_line_text.write(f"{BASE_PRICE - (i*20)*dollars_for_pixel}$", font = ("Arial" , 10, 'normal'))
+        price_line_text.write(f"{BASE_PRICE - (i*20)*dollars_for_pixel}$", font = ("Arial" , font_size, 'normal'))
 
     #=== <from the center of the upper graph up> / <от центра верхнего графика вверх> \/\/\/
     for i in range(11):
@@ -762,7 +761,7 @@ def start():
         price_lines.down()
         price_lines.goto(575, BASE_PRICE*MASHTAB_1 + i*20)
         price_line_text.goto(580, BASE_PRICE*MASHTAB_1 + i*20 - 8)
-        price_line_text.write(f"{BASE_PRICE + (i*20)*dollars_for_pixel}$", font = ("Arial" , 10, 'normal'))
+        price_line_text.write(f"{BASE_PRICE + (i*20)*dollars_for_pixel}$", font = ("Arial" , font_size, 'normal'))
 
 
     #===== <lines for lower graph> / <линии для нижнего графика> \/\/\/
@@ -773,7 +772,7 @@ def start():
         price_lines.down()
         price_lines.goto(575, BASE_PRICE*MASHTAB_2 - i*20)
         price_line_text.goto(580, BASE_PRICE*MASHTAB_2 - i*20 - 8)
-        price_line_text.write(f"{BASE_PRICE - (i*20)*dollars_for_pixel}$", font = ("Arial" , 10, 'normal'))
+        price_line_text.write(f"{BASE_PRICE - (i*20)*dollars_for_pixel}$", font = ("Arial" , font_size, 'normal'))
 
     #=== <from the center of the lower graph up> / <от центра нижнего графика вверх> \/\/\/
     for i in range(11):
@@ -782,7 +781,7 @@ def start():
         price_lines.down()
         price_lines.goto(575, BASE_PRICE*MASHTAB_2 + i*20)
         price_line_text.goto(580, BASE_PRICE*MASHTAB_2 + i*20 - 8)
-        price_line_text.write(f"{BASE_PRICE + (i*20)*dollars_for_pixel}$", font = ("Arial" , 10, 'normal'))
+        price_line_text.write(f"{BASE_PRICE + (i*20)*dollars_for_pixel}$", font = ("Arial" , font_size, 'normal'))
 
 
     #========== <arrow keys to move between history pages> / <стреслки для перемещения между страницами истории> \/\/\/
@@ -889,6 +888,7 @@ def start():
 
 
 
+
     #========== <function to update the maximum price> / <функция для обновления максимальной цены> \/\/\/
     def update_max_price(price):
         max_price_text_line.clear()
@@ -906,7 +906,7 @@ def start():
         max_price_text_line.pencolor('black')
         max_price_text_line.goto(170 + end_palet_3, 403)
 
-        update_interface()
+
         if is_real_time_graph:
             last_price = price_matrix[-1][-1] if price_matrix else BASE_PRICE
             start_y = 180 + (last_price - BASE_PRICE)/dollars_for_pixel
@@ -927,10 +927,10 @@ def start():
             max_price_text_line.goto(170 + end_palet_3, 403)
 
 
-
             if y < -210 and y > -300:
                 redraw_back_to_live_palet()
 
+        update_interface()
 
 
     #========== <function to update the minimum price> / <функция для обновления минимальной цены> \/\/\/
@@ -951,7 +951,6 @@ def start():
         min_price_text_line.goto(160 + end_palet_4, 403)
 
 
-        update_interface()
         if is_real_time_graph:
             last_price = price_matrix[-1][-1] if price_matrix else BASE_PRICE
             start_y = 180 + (last_price - BASE_PRICE)/dollars_for_pixel
@@ -974,6 +973,7 @@ def start():
             if y < -210 and y > -300:
                 redraw_back_to_live_palet()
 
+        update_interface()
 
 
     #========== <function to update the price text> / <функция для обновления текста с ценой> \/\/\/
@@ -1411,31 +1411,33 @@ def start():
             #===== <updating the maximum and minimum prices> / <обновление максимальной и мнинимальной цены> \/\/\/
             update_max_price(max_price)
             update_min_price(min_price)
+            update_interface()
 
 
             #===== <updating the prices> / <обновление цен> \/\/\/     
             for i in range(11):
                 price_line_text.goto(580, BASE_PRICE*MASHTAB_1 - i*20 - 8)
-                price_line_text.write(f"{BASE_PRICE - (i*20)*dollars_for_pixel}$", font = ("Arial" , 10, 'normal'))
+                price_line_text.write(f"{BASE_PRICE - (i*20)*dollars_for_pixel}$", font = ("Arial" , font_size, 'normal'))
 
 
             for i in range(11):
                 price_line_text.goto(580, BASE_PRICE*MASHTAB_1 + i*20 - 8)
-                price_line_text.write(f"{BASE_PRICE + (i*20)*dollars_for_pixel}$", font = ("Arial" , 10, 'normal'))
+                price_line_text.write(f"{BASE_PRICE + (i*20)*dollars_for_pixel}$", font = ("Arial" , font_size, 'normal'))
 
 
             for i in range(11):
                 price_line_text.goto(580, BASE_PRICE*MASHTAB_2 - i*20 - 8)
-                price_line_text.write(f"{BASE_PRICE - (i*20)*dollars_for_pixel}$", font = ("Arial" , 10, 'normal'))
+                price_line_text.write(f"{BASE_PRICE - (i*20)*dollars_for_pixel}$", font = ("Arial" , font_size, 'normal'))
 
 
             for i in range(11):
                 price_line_text.goto(580, BASE_PRICE*MASHTAB_2 + i*20 - 8)
-                price_line_text.write(f"{BASE_PRICE + (i*20)*dollars_for_pixel}$", font = ("Arial" , 10, 'normal'))
+                price_line_text.write(f"{BASE_PRICE + (i*20)*dollars_for_pixel}$", font = ("Arial" , font_size, 'normal'))
 
 
     #========== <function of redrawing some parts of the interface> / <функция перерисовки некоторых частей интерфейса> \/\/\/
     def update_interface():
+        interface_lines.clear()
 
         #===== <arrow keys to move between history pages> / <стреслки для перемещения между страницами истории> \/\/\/
         #=== <left arrow button> / <кнопка стрелка влево> \/\/\/
@@ -1528,9 +1530,40 @@ def start():
         interface_lines.down()
         interface_lines.goto(660, -30)
 
+
+        interface_lines.up()
+        interface_lines.goto(10 + end_palet_1, 455)
+        interface_lines.down()
+        interface_lines.goto(10 + end_palet_1, 390)
+
+        interface_lines.up()
+        interface_lines.goto(10 + end_palet_2, 420)
+        interface_lines.down()
+        interface_lines.forward(10)
+
+        interface_lines.up()
+        interface_lines.goto(10 + end_palet_3, 455)
+        interface_lines.down()
+        interface_lines.goto(10 + end_palet_3, 390)
+
+        interface_lines.up()
+        interface_lines.goto(10 + end_palet_4, 455)
+        interface_lines.down()
+        interface_lines.goto(10 + end_palet_4, 390)
+
+        interface_lines.up()
+        interface_lines.goto(10 + end_palet_5, 455)
+        interface_lines.down()
+        interface_lines.goto(10 + end_palet_5, 390)
+
+        interface_lines.up()
+        interface_lines.goto(10 + end_palet_6, 455)
+        interface_lines.down()
+        interface_lines.goto(10 + end_palet_6, 390)
+
+
         if len(price_matrix) != 60:
             redraw_back_to_live_palet()
-
 
         #========== <version display> / <отображение версии> \/\/\/
         interface_lines.up()
@@ -1713,6 +1746,7 @@ def start():
                 if len(price_matrix) == LOWER_GRAPH_BLOCKS:
                     print('end')
                     draw_lower_graph()
+                    update_interface()
                     update_max_price(max_price)
                     update_min_price(min_price)
                     price_list.clear()
@@ -1744,6 +1778,7 @@ def start():
 
                 if len(price_matrix) == LOWER_GRAPH_BLOCKS:
                     draw_lower_graph()
+                    update_interface()
                     update_max_price(max_price)
                     update_min_price(min_price)
                     price_list.clear()
