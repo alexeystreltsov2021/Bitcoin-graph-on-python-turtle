@@ -4,7 +4,6 @@ import time
 import requests as req
 import tkinter as tk
 
-
 #==================== <set screen settings> / <насторйки экрана> \/\/\/
 win = t.Screen()
 
@@ -16,7 +15,7 @@ SCALE_CONSTANT = (display_height - 170)/910
 
 win.setup(width = 1320*SCALE_CONSTANT,height = 910*SCALE_CONSTANT)
 win._root.resizable(False,False)
-win._root.title('ГРАФИК БИТКОИНА')
+win._root.title('ГРАФИК БИТКОИНА 3')
 
 
 #==================== <set turtels> / <создание черепах> \/\/\/
@@ -38,6 +37,7 @@ startscreen_2 = t.Turtle()
 
 
 #==================== <set turtle settings> / <установк параметров черепах> \/\/\/
+#========== <set pen size> / <установк толщины пера> \/\/\/
 interface_lines.pensize(4*SCALE_CONSTANT)
 interface_palets.pensize(4*SCALE_CONSTANT)
 upper_graph.pensize(4*SCALE_CONSTANT)
@@ -45,6 +45,7 @@ lower_graph.pensize(2*SCALE_CONSTANT)
 back_to_live_palet.pensize(2*SCALE_CONSTANT)
 
 
+#========== <setting up invisibility for turtles> / <установка невидимости черепахам> \/\/\/
 t.hideturtle()
 interface_lines.hideturtle()
 interface_palets.hideturtle()
@@ -62,9 +63,11 @@ min_price_text_line.hideturtle()
 startscreen.hideturtle()
 startscreen_2.hideturtle()
 
+#========== <preparing the turtle logo> / <подготовка логотипа черепхи> \/\/\/
 startscreen.shape("turtle")
 startscreen.shapesize(15*SCALE_CONSTANT)
 
+#========== <disable drawing> / <отключение рисования> \/\/\/
 static_text.up()
 time_text.up()
 write_price.up()
@@ -76,12 +79,7 @@ min_price_text_line.up()
 
 startscreen_2.speed(0)
 
-
 t.bgcolor("#3F3F3F")
-price_lines.pencolor("#858585")
-price_line_text.pencolor("#858585")
-
-
 
 
 #==================== <constants> / <константы> \/\/\/
@@ -102,7 +100,7 @@ LOWER_GRAPH_X = -650*SCALE_CONSTANT
 
 
 #==================== <variables> / <переменные> \/\/\/
-dollars_for_pixel = 0.05*SCALE_CONSTANT
+dollars_for_gap_between_lines = 0.05*SCALE_CONSTANT
 
 isend_upper_graph = None
 is_real_time_graph = True
@@ -119,26 +117,38 @@ times_list = []
 
 BASE_PRICE = None
 
-theme = None
+theme = "DARK"
+theme_color = "green"
+bg_index = 0
+
+arrow_button_bg1 = "#353535"
+arrow_button_bg2 = "#3A3A3A"
 
 #==================== <version> / <версия> \/\/\/
 
-VERSION = "version 1.0.5"
+VERSION = "version 1.0.6"
 
 #==================== <start screen> / <стартовый экран> \/\/\/
 def start_screen():
+    global theme_color, arrow_button_bg1, arrow_button_bg2
+
+    win.tracer(0)
+
     #========== <background> / <задний фон> \/\/\/
     startscreen.pencolor("#383838")
     startscreen.dot(10000*SCALE_CONSTANT)
     startscreen.pencolor("#303030")
     startscreen.dot(1500*SCALE_CONSTANT)
     startscreen.pencolor("#2B2B2B")
-    startscreen.dot(1200*SCALE_CONSTANT)
+    startscreen.dot(1300*SCALE_CONSTANT)
     startscreen.pencolor("#272727")
-    startscreen.dot(750*SCALE_CONSTANT)
+    startscreen.dot(950*SCALE_CONSTANT)
     startscreen.pencolor("#242424")
-    startscreen.dot(300*SCALE_CONSTANT)
+    startscreen.dot(550*SCALE_CONSTANT)
+    startscreen.pencolor("#222222")
+    startscreen.dot(250*SCALE_CONSTANT)
 
+    win.tracer(1)
 
     startscreen.up()
     startscreen.goto(-590*SCALE_CONSTANT, 250*SCALE_CONSTANT)
@@ -234,322 +244,519 @@ def start_screen():
     startscreen.hideturtle()
 
 
-    #========== <background> / <задний фон> \/\/\/
-    startscreen.goto(0,0)
-    startscreen.pencolor("#383838")
-    startscreen.dot(10000*SCALE_CONSTANT)
-    startscreen.pencolor("#303030")
-    startscreen.dot(1500*SCALE_CONSTANT)
-    startscreen.pencolor("#2B2B2B")
-    startscreen.dot(1200*SCALE_CONSTANT)
-    startscreen.pencolor("#272727")
-    startscreen.dot(750*SCALE_CONSTANT)
-    startscreen.pencolor("#242424")
-    startscreen.dot(300*SCALE_CONSTANT)
+    def draw_theme_block(x1, x2, y1, y2, color_1, color_2):
+        startscreen.pencolor(color_1)
+        startscreen.fillcolor(color_2)
+        startscreen.pensize(6*SCALE_CONSTANT)
+        startscreen.up()
+        startscreen.goto(x1*SCALE_CONSTANT, y1*SCALE_CONSTANT)
+        startscreen.down()
+        startscreen.begin_fill()
+        startscreen.goto(x2*SCALE_CONSTANT, y1*SCALE_CONSTANT)
+        startscreen.goto(x2*SCALE_CONSTANT, y2*SCALE_CONSTANT)
+        startscreen.goto(x1*SCALE_CONSTANT, y2*SCALE_CONSTANT)
+        startscreen.goto(x1*SCALE_CONSTANT, y1*SCALE_CONSTANT)
+        startscreen.end_fill()
 
-    #========== <version display> / <отображение версии> \/\/\/
-    startscreen.up()
-    startscreen.pencolor("#000000")
-    startscreen.goto(-650*SCALE_CONSTANT, -445*SCALE_CONSTANT)
-    startscreen.write(VERSION, font = ("Times New Roman" , int(25*SCALE_CONSTANT)))
+        if theme == "DARK":
+            startscreen.pencolor("#3d3d3d")
+            startscreen.fillcolor("#4D4D4D")
+        elif theme == "LIGHT":
+            startscreen.pencolor("#6B6B6B")
+            startscreen.fillcolor("#777777")
 
-    #========== <the inscription "Select theme:"> / <надпись "Select theme:"> \/\/\/
-    startscreen.goto(-630*SCALE_CONSTANT, 320*SCALE_CONSTANT)
-    startscreen.write("Select theme:", font = ("Times New Roman" , int(80*SCALE_CONSTANT)))
-
-
-    #========== <green theme block> / <блок зеленой темы> \/\/\/
-    startscreen.pencolor("#0d3b31")
-    startscreen.fillcolor("#145f4f")
-    startscreen.pensize(6*SCALE_CONSTANT)
-    startscreen.goto(-550*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(-450*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.goto(-450*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(-550*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(-550*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.end_fill()
-
-    startscreen.pencolor("#3d3d3d")
-    startscreen.fillcolor("#4D4D4D")
-    startscreen.pensize(4*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(-525*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(-475*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.goto(-475*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(-525*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(-525*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.end_fill()
+        startscreen.pensize(4*SCALE_CONSTANT)
+        startscreen.up()
+        startscreen.goto(x1*SCALE_CONSTANT+25*SCALE_CONSTANT, 55*SCALE_CONSTANT)
+        startscreen.down()
+        startscreen.begin_fill()
+        startscreen.goto(x2*SCALE_CONSTANT-25*SCALE_CONSTANT, 55*SCALE_CONSTANT)
+        startscreen.goto(x2*SCALE_CONSTANT-25*SCALE_CONSTANT, 5)
+        startscreen.goto(x1*SCALE_CONSTANT+25*SCALE_CONSTANT, 5)
+        startscreen.goto(x1*SCALE_CONSTANT+25*SCALE_CONSTANT, 55*SCALE_CONSTANT)
+        startscreen.end_fill()
 
 
-    #========== <orange theme block> / <блок оранжевой темы> \/\/\/
-    startscreen.pencolor("#d68a43")
-    startscreen.fillcolor("#e4974f")
-    startscreen.pensize(6*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(-350*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(-250*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.goto(-250*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(-350*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(-350*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.end_fill()
+    def draw_bg(theme, bg_index):
+        if theme == "DARK":   
+            if bg_index == 0:
+                startscreen.goto(0,0)
+                startscreen.pencolor("#383838")
+                startscreen.dot(10000*SCALE_CONSTANT)
+                startscreen.pencolor("#303030")
+                startscreen.dot(1500*SCALE_CONSTANT)
+                startscreen.pencolor("#2B2B2B")
+                startscreen.dot(1300*SCALE_CONSTANT)
+                startscreen.pencolor("#272727")
+                startscreen.dot(950*SCALE_CONSTANT)
+                startscreen.pencolor("#242424")
+                startscreen.dot(550*SCALE_CONSTANT)
+                startscreen.pencolor("#222222")
+                startscreen.dot(250*SCALE_CONSTANT)
 
-    startscreen.pencolor("#3d3d3d")
-    startscreen.fillcolor("#4D4D4D")
-    startscreen.pensize(4*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(-325*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(-275*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.goto(-275*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(-325*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(-325*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.end_fill()
+            elif bg_index == 1:
+                startscreen.pencolor("#303030")
+                startscreen.dot(10000*SCALE_CONSTANT)
+                startscreen.pensize(1*SCALE_CONSTANT)                
+                startscreen.pencolor("#0C0C0C")
+                startscreen.fillcolor("#2C2C2C")
 
+                for i in range(22):
+                    startscreen.up()
+                    startscreen.goto((-660+(i*80))*SCALE_CONSTANT, 455*SCALE_CONSTANT)
+                    startscreen.down()
+                    startscreen.begin_fill()
+                    startscreen.goto((-580+(i*80))*SCALE_CONSTANT, 455*SCALE_CONSTANT)
+                    startscreen.goto(-660*SCALE_CONSTANT, (295-(i*160))*SCALE_CONSTANT)
+                    startscreen.goto(-660*SCALE_CONSTANT, (375-(i*160))*SCALE_CONSTANT)
+                    startscreen.goto((-660+(i*80))*SCALE_CONSTANT, 455*SCALE_CONSTANT)
+                    startscreen.end_fill()
 
-    #========== <blue theme block> / <блок синей темы> \/\/\/
-    startscreen.pencolor("#13335e")
-    startscreen.fillcolor("#1e416e")
-    startscreen.pensize(6*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(-50*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(-150*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.goto(-150*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(-50*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(-50*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.end_fill()
+            elif bg_index == 2:
+                startscreen.pencolor("#2C2C2C")
+                startscreen.dot(10000*SCALE_CONSTANT)
 
-    startscreen.pencolor("#3d3d3d")
-    startscreen.fillcolor("#4D4D4D")
-    startscreen.pensize(4*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(-75*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(-125*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.goto(-125*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(-75*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(-75*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.end_fill()
+        elif theme == "LIGHT":
+            #========== <background> / <задний фон> \/\/\/
+            if bg_index == 0:
+                startscreen.goto(0,0)
+                startscreen.pencolor("#BBBBBB")
+                startscreen.dot(10000*SCALE_CONSTANT)
+                startscreen.pencolor("#B6B6B6")
+                startscreen.dot(1500*SCALE_CONSTANT)
+                startscreen.pencolor("#ACACAC")
+                startscreen.dot(1300*SCALE_CONSTANT)
+                startscreen.pencolor("#9C9C9C")
+                startscreen.dot(950*SCALE_CONSTANT)
+                startscreen.pencolor("#8F8F8F")
+                startscreen.dot(550*SCALE_CONSTANT)
+                startscreen.pencolor("#888888")
+                startscreen.dot(250*SCALE_CONSTANT)
 
+            elif bg_index == 1:
+                startscreen.pencolor("#B4B4B4")
+                startscreen.dot(10000*SCALE_CONSTANT)
+                startscreen.pensize(1*SCALE_CONSTANT)                
+                startscreen.pencolor("#5A5A5A")
+                startscreen.fillcolor("#A8A8A8")
 
-    #========== <green violet block> / <блок фиолетовой темы> \/\/\/
-    startscreen.pencolor("#492f57")
-    startscreen.fillcolor("#523461")
-    startscreen.pensize(6*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(50*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(150*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.goto(150*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(50*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(50*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.end_fill()
+                for i in range(22):
+                    startscreen.up()
+                    startscreen.goto((-660+(i*80))*SCALE_CONSTANT, 455*SCALE_CONSTANT)
+                    startscreen.down()
+                    startscreen.begin_fill()
+                    startscreen.goto((-580+(i*80))*SCALE_CONSTANT, 455*SCALE_CONSTANT)
+                    startscreen.goto(-660*SCALE_CONSTANT, (295-(i*160))*SCALE_CONSTANT)
+                    startscreen.goto(-660*SCALE_CONSTANT, (375-(i*160))*SCALE_CONSTANT)
+                    startscreen.goto((-660+(i*80))*SCALE_CONSTANT, 455*SCALE_CONSTANT)
+                    startscreen.end_fill()
 
-    startscreen.pencolor("#3d3d3d")
-    startscreen.fillcolor("#4D4D4D")
-    startscreen.pensize(4*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(125*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(75*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.goto(75*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(125*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(125*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.end_fill()
+            elif bg_index == 2:
+                startscreen.pencolor("#808080")
+                startscreen.dot(10000*SCALE_CONSTANT)
 
 
-    #========== <green red block> / <блок красной темы> \/\/\/
-    startscreen.pencolor("#af2929")
-    startscreen.fillcolor("#c53a3a")
-    startscreen.pensize(6*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(350*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(250*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.goto(250*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(350*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(350*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.end_fill()
 
-    startscreen.pencolor("#3d3d3d")
-    startscreen.fillcolor("#4D4D4D")
-    startscreen.pensize(4*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(325*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(275*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.goto(275*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(325*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(325*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.end_fill()
+    def redraw_setting_screen(theme, bg_index):
+        draw_bg(theme, bg_index)
 
+        if theme == "DARK":
+            startscreen.pencolor("#000000")
+        elif theme == "LIGHT":
+            startscreen.pencolor("#252525")
 
-    #========== <green white block> / <блок белой темы> \/\/\/
-    startscreen.pencolor("#969696")
-    startscreen.fillcolor("#A3A3A3")
-    startscreen.pensize(6*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(550*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(450*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.goto(450*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(550*SCALE_CONSTANT, 100*SCALE_CONSTANT)
-    startscreen.goto(550*SCALE_CONSTANT, 200*SCALE_CONSTANT)
-    startscreen.end_fill()
+        #========== <version display> / <отображение версии> \/\/\/
+        startscreen.up()
+        startscreen.goto(-650*SCALE_CONSTANT, -445*SCALE_CONSTANT)
+        startscreen.write(VERSION, font = ("Times New Roman" , int(25*SCALE_CONSTANT)))
 
-    startscreen.pencolor("#3d3d3d")
-    startscreen.fillcolor("#4D4D4D")
-    startscreen.pensize(4*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(525*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(475*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.goto(475*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(525*SCALE_CONSTANT, 25*SCALE_CONSTANT)
-    startscreen.goto(525*SCALE_CONSTANT, 75*SCALE_CONSTANT)
-    startscreen.end_fill()
+        #========== <the inscription "Select theme:"> / <надпись "Select theme:"> \/\/\/
+        startscreen.goto(-630*SCALE_CONSTANT, 320*SCALE_CONSTANT)
+        startscreen.write("Select theme:", font = ("Times New Roman" , int(80*SCALE_CONSTANT)))
+
+        #========== <the inscription "Select theme:"> / <надпись "Select theme color:"> \/\/\/
+        startscreen.goto(-630*SCALE_CONSTANT, 200*SCALE_CONSTANT)
+        startscreen.write("Select theme color:", font = ("Times New Roman" , int(80*SCALE_CONSTANT)))
+
+        #========== <the inscription "Switch bg"> / <надпись "Switch bg"> \/\/\/
+        startscreen.goto(-630*SCALE_CONSTANT, -155*SCALE_CONSTANT)
+        startscreen.write("Switch bg:", font = ("Times New Roman" , int(80*SCALE_CONSTANT)))
 
 
-    #========== <start button> / <кнопка старт> \/\/\/
-    #===== <block> / <основа> \/\/\/
-    startscreen.pencolor("#3d3d3d")
-    startscreen.fillcolor("#4D4D4D")
-    startscreen.pensize(4*SCALE_CONSTANT)
-    startscreen.up()
-    startscreen.goto(-170*SCALE_CONSTANT, -150*SCALE_CONSTANT)
-    startscreen.down()
-    startscreen.begin_fill()
-    startscreen.goto(170*SCALE_CONSTANT, -150*SCALE_CONSTANT)
-    startscreen.goto(170*SCALE_CONSTANT, -250*SCALE_CONSTANT)
-    startscreen.goto(-170*SCALE_CONSTANT, -250*SCALE_CONSTANT)
-    startscreen.goto(-170*SCALE_CONSTANT, -150*SCALE_CONSTANT)
-    startscreen.end_fill()
 
-    #===== <text> / <текст> \/\/\/
-    startscreen.pencolor("#000000")
-    startscreen.up()
-    startscreen.goto(-160*SCALE_CONSTANT, -260*SCALE_CONSTANT)
-    startscreen.write("START", font = ("Times New Roman" , int(75*SCALE_CONSTANT)))
+
+        if theme == "DARK":
+            startscreen.pencolor("#1B1B1B")
+            startscreen.fillcolor("#222222")
+            startscreen.pensize(4*SCALE_CONSTANT)
+            startscreen.up()
+            startscreen.goto(-35*SCALE_CONSTANT, 330*SCALE_CONSTANT)
+            startscreen.down()
+            startscreen.begin_fill()
+            startscreen.goto(-35*SCALE_CONSTANT, 420*SCALE_CONSTANT)
+            startscreen.goto(285*SCALE_CONSTANT, 420*SCALE_CONSTANT)
+            startscreen.goto(285*SCALE_CONSTANT, 330*SCALE_CONSTANT)
+            startscreen.goto(-35*SCALE_CONSTANT, 330*SCALE_CONSTANT)
+            startscreen.end_fill()
+
+            startscreen.up()
+            startscreen.goto(-25*SCALE_CONSTANT, 312*SCALE_CONSTANT)
+            startscreen.pencolor("#0F0F0F")
+            startscreen.write("DARK", font = ("Times New Roman" , int(80*SCALE_CONSTANT)))
+
+
+            startscreen.pencolor("#1B1B1B")
+            startscreen.fillcolor("#222222")
+            startscreen.pensize(4*SCALE_CONSTANT)
+            startscreen.up()
+            startscreen.goto(-150*SCALE_CONSTANT, -150*SCALE_CONSTANT)
+            startscreen.down()
+            startscreen.begin_fill()
+            startscreen.goto(-150*SCALE_CONSTANT, -50*SCALE_CONSTANT)
+            startscreen.goto(280*SCALE_CONSTANT, -50*SCALE_CONSTANT)
+            startscreen.goto(280*SCALE_CONSTANT, -150*SCALE_CONSTANT)
+            startscreen.goto(-150*SCALE_CONSTANT, -150*SCALE_CONSTANT)
+            startscreen.end_fill()
+
+
+            startscreen.up()
+            startscreen.goto(-140*SCALE_CONSTANT, -160*SCALE_CONSTANT)
+            startscreen.pencolor("#0F0F0F")
+            startscreen.write("SWITCH", font = ("Times New Roman" , int(80*SCALE_CONSTANT)))
+
+
+            #========== <start button> / <кнопка старт> \/\/\/
+            #===== <block> / <основа> \/\/\/
+            startscreen.pencolor("#3d3d3d")
+            startscreen.fillcolor("#4D4D4D")
+            startscreen.pensize(4*SCALE_CONSTANT)
+            startscreen.up()
+            startscreen.goto(-170*SCALE_CONSTANT, -250*SCALE_CONSTANT)
+            startscreen.down()
+            startscreen.begin_fill()
+            startscreen.goto(170*SCALE_CONSTANT, -250*SCALE_CONSTANT)
+            startscreen.goto(170*SCALE_CONSTANT, -350*SCALE_CONSTANT)
+            startscreen.goto(-170*SCALE_CONSTANT, -350*SCALE_CONSTANT)
+            startscreen.goto(-170*SCALE_CONSTANT, -250*SCALE_CONSTANT)
+            startscreen.end_fill()
+
+            #===== <text> / <текст> \/\/\/
+            startscreen.pencolor("#000000")
+            startscreen.up()
+            startscreen.goto(-160*SCALE_CONSTANT, -360*SCALE_CONSTANT)
+            startscreen.write("START", font = ("Times New Roman" , int(75*SCALE_CONSTANT)))
+
+
+            #========== <green theme block> / <блок зеленой темы> \/\/\/
+            draw_theme_block(-550, -450, 180, 80, "#0d3b31", "#145f4f")
+
+            #========== <orange theme block> / <блок оранжевой темы> \/\/\/
+            draw_theme_block(-350, -250, 180, 80, "#d68a43", "#e4974f")
+
+            #========== <blue theme block> / <блок синей темы> \/\/\/   
+            draw_theme_block(-150, -50, 180, 80, "#153a6b", "#1e416e")
+
+            #========== <green violet block> / <блок фиолетовой темы> \/\/\/
+            draw_theme_block(50, 150, 180, 80, "#492f57", "#523461")
+
+            #========== <green red block> / <блок красной темы> \/\/\/
+            draw_theme_block(250, 350, 180, 80, "#af2929", "#c53a3a")
+
+            #========== <green white block> / <блок белой темы> \/\/\/
+            draw_theme_block(450, 550, 180, 80, "#969696", "#A3A3A3")
+
+
+        elif theme == "LIGHT":
+            startscreen.pencolor("#B4B4B4")
+            startscreen.fillcolor("#CCCCCC")
+            startscreen.pensize(4*SCALE_CONSTANT)
+            startscreen.up()
+            startscreen.goto(-35*SCALE_CONSTANT, 330*SCALE_CONSTANT)
+            startscreen.down()
+            startscreen.begin_fill()
+            startscreen.goto(-35*SCALE_CONSTANT, 420*SCALE_CONSTANT)
+            startscreen.goto(300*SCALE_CONSTANT, 420*SCALE_CONSTANT)
+            startscreen.goto(300*SCALE_CONSTANT, 330*SCALE_CONSTANT)
+            startscreen.goto(-35*SCALE_CONSTANT, 330*SCALE_CONSTANT)
+            startscreen.end_fill()
+
+            startscreen.up()
+            startscreen.goto(-25*SCALE_CONSTANT, 312*SCALE_CONSTANT)
+            startscreen.pencolor("#AAAAAA")
+            startscreen.write("LIGHT", font = ("Times New Roman" , int(80*SCALE_CONSTANT)))
+
+
+            startscreen.pencolor("#B4B4B4")
+            startscreen.fillcolor("#CCCCCC")
+            startscreen.pensize(4*SCALE_CONSTANT)
+            startscreen.up()
+            startscreen.goto(-150*SCALE_CONSTANT, -150*SCALE_CONSTANT)
+            startscreen.down()
+            startscreen.begin_fill()
+            startscreen.goto(-150*SCALE_CONSTANT, -50*SCALE_CONSTANT)
+            startscreen.goto(280*SCALE_CONSTANT, -50*SCALE_CONSTANT)
+            startscreen.goto(280*SCALE_CONSTANT, -150*SCALE_CONSTANT)
+            startscreen.goto(-150*SCALE_CONSTANT, -150*SCALE_CONSTANT)
+            startscreen.end_fill()
+
+            startscreen.up()
+            startscreen.goto(-140*SCALE_CONSTANT, -160*SCALE_CONSTANT)
+            startscreen.pencolor("#AAAAAA")
+            startscreen.write("SWITCH", font = ("Times New Roman" , int(80*SCALE_CONSTANT)))
+
+
+            #========== <start button> / <кнопка старт> \/\/\/
+            #===== <block> / <основа> \/\/\/
+            startscreen.pencolor("#666666")
+            startscreen.fillcolor("#727272")
+            startscreen.pensize(4*SCALE_CONSTANT)
+            startscreen.up()
+            startscreen.goto(-170*SCALE_CONSTANT, -250*SCALE_CONSTANT)
+            startscreen.down()
+            startscreen.begin_fill()
+            startscreen.goto(170*SCALE_CONSTANT, -250*SCALE_CONSTANT)
+            startscreen.goto(170*SCALE_CONSTANT, -350*SCALE_CONSTANT)
+            startscreen.goto(-170*SCALE_CONSTANT, -350*SCALE_CONSTANT)
+            startscreen.goto(-170*SCALE_CONSTANT, -250*SCALE_CONSTANT)
+            startscreen.end_fill()
+
+            #===== <text> / <текст> \/\/\/
+            startscreen.pencolor("#353535")
+            startscreen.up()
+            startscreen.goto(-160*SCALE_CONSTANT, -360*SCALE_CONSTANT)
+            startscreen.write("START", font = ("Times New Roman" , int(75*SCALE_CONSTANT)))
+
+
+            #========== <green theme block> / <блок зеленой темы> \/\/\/
+            draw_theme_block(-550, -450, 180, 80, "#2F8D79", "#33a088")
+
+            #========== <orange theme block> / <блок оранжевой темы> \/\/\/
+            draw_theme_block(-350, -250, 180, 80, "#e7a567", "#f3b47a")
+
+            #========== <blue theme block> / <блок синей темы> \/\/\/   
+            draw_theme_block(-150, -50, 180, 80, "#4077c0", "#4983cf")
+
+            #========== <green violet block> / <блок фиолетовой темы> \/\/\/
+            draw_theme_block(50, 150, 180, 80, "#8a5ba3", "#9361ad")
+
+            #========== <green red block> / <блок красной темы> \/\/\/
+            draw_theme_block(250, 350, 180, 80, "#d45858", "#e06969")
+
+            #========== <green white block> / <блок белой темы> \/\/\/
+            draw_theme_block(450, 550, 180, 80, "#666666", "#727272")
+
+
+        #========== <indicator dot of the selected theme> / <точка-индикатор выбранной темы> \/\/\/
+        list_with_colors = ["green", "orange", "blue", "violet", "red", "white"]
+        ind = list_with_colors.index(theme_color)
+
+        if theme == "DARK":
+            startscreen_2.pencolor("#3d3d3d")
+        elif theme == "LIGHT":
+            startscreen_2.pencolor("#696969")
+
+        startscreen_2.clear()
+        startscreen_2.up()
+        startscreen_2.goto((-500 + ind*200)*SCALE_CONSTANT, 30*SCALE_CONSTANT)
+        startscreen_2.down()
+        startscreen_2.dot(25*SCALE_CONSTANT)
+
+
+    #========== <setting default value> / <установка заначения по умолчанию> \/\/\/
+    startscreen_2.up()
+    startscreen_2.goto(-500*SCALE_CONSTANT, 150*SCALE_CONSTANT)
+    startscreen_2.down()
+
+    startscreen_2.pencolor("#3d3d3d")
+    startscreen_2.dot(25*SCALE_CONSTANT)
+
+    redraw_setting_screen("DARK", bg_index)
 
     win.tracer(1)
 
-    startscreen_2.pencolor("#3d3d3d")
+
 
     #========== <click test> / <проверка нажатия> \/\/\/
     def click(x, y):
-        global theme, color_1, color_2, pale_color_1, pale_color_2, bright_color_1, bright_color_2
-        #===== <green theme selection check> / <проверка на выбор зеленой темы> \/\/\/
-        if x < -450*SCALE_CONSTANT and x > -550*SCALE_CONSTANT and y > 100*SCALE_CONSTANT and y < 200*SCALE_CONSTANT:
+        global theme, theme_color, bg_index, color_1, color_2, pale_color_1, pale_color_2, bright_color_1, bright_color_2, arrow_button_bg1, arrow_button_bg2
+        #===== <checking for a change of theme> / <проверка на смену темы> \/\/\/
+        if x < 285*SCALE_CONSTANT and x > -35*SCALE_CONSTANT and y > 330*SCALE_CONSTANT and y < 420*SCALE_CONSTANT:
+            startscreen.clear()
+            win.tracer(0)
+            if theme == "DARK":
+                theme = "LIGHT"
+                redraw_setting_screen(theme, bg_index)
+            elif theme == "LIGHT":
+                theme = "DARK"
+                redraw_setting_screen(theme, bg_index)
+            win.tracer(1)
+
+        #===== <checking for background change> / <проверка на смену заднего фона> \/\/\/
+        if x < 280*SCALE_CONSTANT and x > -150*SCALE_CONSTANT and y > -150*SCALE_CONSTANT and y < -50*SCALE_CONSTANT:
+            if bg_index != 2:
+                bg_index += 1
+            else:
+                bg_index = 0
+
+            win.tracer(0)
+            redraw_setting_screen(theme, bg_index)
+            win.tracer(1)
+        
+        #===== <green theme color selection check> / <проверка на выбор зеленого цвета темы> \/\/\/
+        elif x < -450*SCALE_CONSTANT and x > -550*SCALE_CONSTANT and y > 80*SCALE_CONSTANT and y < 180*SCALE_CONSTANT:
             startscreen_2.clear()
             startscreen_2.up()
-            startscreen_2.goto(-500*SCALE_CONSTANT, 50*SCALE_CONSTANT)
+            startscreen_2.goto(-500*SCALE_CONSTANT, 30*SCALE_CONSTANT)
             startscreen_2.down()
-            theme = "green"
+            theme_color = "green"
             startscreen_2.dot(25*SCALE_CONSTANT)
-        #===== <orange theme selection check> / <проверка на выбор оранжевой темы> \/\/\/
-        elif x < -250*SCALE_CONSTANT and x > -350*SCALE_CONSTANT and y > 100*SCALE_CONSTANT and y < 200*SCALE_CONSTANT:
+        #===== <orange theme color selection check> / <проверка на выбор оранжевого цвета темы> \/\/\/
+        elif x < -250*SCALE_CONSTANT and x > -350*SCALE_CONSTANT and y > 80*SCALE_CONSTANT and y < 180*SCALE_CONSTANT:
             startscreen_2.clear()
             startscreen_2.up()
-            startscreen_2.goto(-300*SCALE_CONSTANT, 50*SCALE_CONSTANT)
+            startscreen_2.goto(-300*SCALE_CONSTANT, 30*SCALE_CONSTANT)
             startscreen_2.down()
-            theme = "orange"
+            theme_color = "orange"
             startscreen_2.dot(25*SCALE_CONSTANT)
-        #===== <blue theme selection check> / <проверка на выбор синей темы> \/\/\/
-        elif x < -50*SCALE_CONSTANT and x > -150*SCALE_CONSTANT and y > 100*SCALE_CONSTANT and y < 200*SCALE_CONSTANT:
+        #===== <blue theme color selection check> / <проверка на выбор синего цвета темы> \/\/\/
+        elif x < -50*SCALE_CONSTANT and x > -150*SCALE_CONSTANT and y > 80*SCALE_CONSTANT and y < 180*SCALE_CONSTANT:
             startscreen_2.clear()
             startscreen_2.up()
-            startscreen_2.goto(-100*SCALE_CONSTANT, 50*SCALE_CONSTANT)
+            startscreen_2.goto(-100*SCALE_CONSTANT, 30*SCALE_CONSTANT)
             startscreen_2.down()
-            theme = "blue"
+            theme_color = "blue"
             startscreen_2.dot(25*SCALE_CONSTANT)
-        #===== <violet theme selection check> / <проверка на выбор фиолетовой темы> \/\/\/
-        elif x < 150*SCALE_CONSTANT and x > 50*SCALE_CONSTANT and y > 100*SCALE_CONSTANT and y < 200*SCALE_CONSTANT:
+        #===== <violet theme color selection check> / <проверка на выбор фиолетового цвета темы> \/\/\/
+        elif x < 150*SCALE_CONSTANT and x > 50*SCALE_CONSTANT and y > 80*SCALE_CONSTANT and y < 180*SCALE_CONSTANT:
             startscreen_2.clear()
             startscreen_2.up()
-            startscreen_2.goto(100*SCALE_CONSTANT, 50*SCALE_CONSTANT)
+            startscreen_2.goto(100*SCALE_CONSTANT, 30*SCALE_CONSTANT)
             startscreen_2.down()
-            theme = "violet"
+            theme_color = "violet"
             startscreen_2.dot(25*SCALE_CONSTANT)
-        #===== <red theme selection check> / <проверка на выбор красной темы> \/\/\/
-        elif x < 350*SCALE_CONSTANT and x > 250*SCALE_CONSTANT and y > 100*SCALE_CONSTANT and y < 200*SCALE_CONSTANT:
+        #===== <red theme color selection check> / <проверка на выбор красного цвета темы> \/\/\/
+        elif x < 350*SCALE_CONSTANT and x > 250*SCALE_CONSTANT and y > 80*SCALE_CONSTANT and y < 180*SCALE_CONSTANT:
             startscreen_2.clear()
             startscreen_2.up()
-            startscreen_2.goto(300*SCALE_CONSTANT, 50*SCALE_CONSTANT)
+            startscreen_2.goto(300*SCALE_CONSTANT, 30*SCALE_CONSTANT)
             startscreen_2.down()
-            theme = "red"
+            theme_color = "red"
             startscreen_2.dot(25*SCALE_CONSTANT)
-        #===== <white theme selection check> / <проверка на выбор белой темы> \/\/\/
-        elif x < 550*SCALE_CONSTANT and x > 450*SCALE_CONSTANT and y > 100*SCALE_CONSTANT and y < 200*SCALE_CONSTANT:
+        #===== <white theme color selection check> / <проверка на выбор белого цвета темы> \/\/\/
+        elif x < 550*SCALE_CONSTANT and x > 450*SCALE_CONSTANT and y > 80*SCALE_CONSTANT and y < 180*SCALE_CONSTANT:
             startscreen_2.clear()
             startscreen_2.up()
-            startscreen_2.goto(500*SCALE_CONSTANT, 50*SCALE_CONSTANT)
+            startscreen_2.goto(500*SCALE_CONSTANT, 30*SCALE_CONSTANT)
             startscreen_2.down()
-            theme = "white"
+            theme_color = "white"
             startscreen_2.dot(25*SCALE_CONSTANT)
 
         #===== <theme installation> / <установка темы> \/\/\/
-        elif x < 170*SCALE_CONSTANT and x > -170*SCALE_CONSTANT and y > -250*SCALE_CONSTANT and y < -150*SCALE_CONSTANT:
-            if theme == "green":
-                color_1 = "#0d3b31"
-                color_2 = "#145f4f"
-                pale_color_1 = "#374744"
-                pale_color_2 = "#4b5c59"
-                bright_color_1 = "#125042"
-                bright_color_2 = "#1b866f"      
-            elif theme == "orange":
-                color_1 = "#d68a43"
-                color_2 = "#e4974f"
-                pale_color_1 = "#9C7B5C"
-                pale_color_2 = "#B8906B"
-                bright_color_1 = "#df8c3f"
-                bright_color_2 = "#ebac71"
-            elif theme == "blue":
-                color_1 = "#13335e"
-                color_2 = "#1e416e"
-                pale_color_1 = "#40608a"
-                pale_color_2 = "#50709b"
-                bright_color_1 = "#204474"
-                bright_color_2 = "#407ac7"
-            elif theme == "red":
-                color_1 = "#af2929"
-                color_2 = "#c53a3a"
-                pale_color_1 = "#964b4b"
-                pale_color_2 = "#a55555"
-                bright_color_1 = "#b93737"
-                bright_color_2 = "#d65252"
-            elif theme == "white":
-                color_1 = "#969696"
-                color_2 = "#A3A3A3"
-                pale_color_1 = "#646464"
-                pale_color_2 = "#6D6D6D"
-                bright_color_1 = "#b4b4b4"
-                bright_color_2 = "#cccccc"
-            elif theme == "violet":
-                color_1 = "#492f57"
-                color_2 = "#523461"
-                pale_color_1 = "#52415C"
-                pale_color_2 = "#5B4B64"
-                bright_color_1 = "#68387E"
-                bright_color_2 = "#8440A7"
-            if theme:
-                startscreen.clear()
-                startscreen_2.clear()
-                start()   
+        elif x < 170*SCALE_CONSTANT and x > -170*SCALE_CONSTANT and y > -350*SCALE_CONSTANT and y < -250*SCALE_CONSTANT:
+            if theme == "DARK":
+                arrow_button_bg1 = "#353535"
+                arrow_button_bg1 = "#3A3A3A"
+                interface_lines.pencolor("#000000")
+                price_lines.pencolor("#858585")
+                price_line_text.pencolor("#858585")
+
+                if theme_color == "green":
+                    color_1 = "#0d3b31"
+                    color_2 = "#145f4f"
+                    pale_color_1 = "#374744"
+                    pale_color_2 = "#4b5c59"
+                    bright_color_1 = "#125042"
+                    bright_color_2 = "#1b866f"      
+                elif theme_color == "orange":
+                    color_1 = "#d68a43"
+                    color_2 = "#e4974f"
+                    pale_color_1 = "#9C7B5C"
+                    pale_color_2 = "#B8906B"
+                    bright_color_1 = "#df8c3f"
+                    bright_color_2 = "#ebac71"
+                elif theme_color == "blue":
+                    color_1 = "#153a6b"
+                    color_2 = "#1e416e"
+                    pale_color_1 = "#40608a"
+                    pale_color_2 = "#50709b"
+                    bright_color_1 = "#235596"
+                    bright_color_2 = "#407ac7"
+                elif theme_color == "violet":
+                    color_1 = "#492f57"
+                    color_2 = "#523461"
+                    pale_color_1 = "#52415C"
+                    pale_color_2 = "#5B4B64"
+                    bright_color_1 = "#68387E"
+                    bright_color_2 = "#8440A7"                    
+                elif theme_color == "red":
+                    color_1 = "#af2929"
+                    color_2 = "#c53a3a"
+                    pale_color_1 = "#964b4b"
+                    pale_color_2 = "#a55555"
+                    bright_color_1 = "#b93737"
+                    bright_color_2 = "#d65252"
+                elif theme_color == "white":
+                    color_1 = "#969696"
+                    color_2 = "#A3A3A3"
+                    pale_color_1 = "#646464"
+                    pale_color_2 = "#6D6D6D"
+                    bright_color_1 = "#b4b4b4"
+                    bright_color_2 = "#cccccc"
+
+            elif theme == "LIGHT":
+                arrow_button_bg1 = "#808080"
+                arrow_button_bg2 = "#8A8A8A"
+                interface_lines.pencolor("#303030")
+                price_lines.pencolor("#222222")
+                price_line_text.pencolor("#222222")
+
+                if theme_color == "green":
+                    color_1 = "#2F8D79"
+                    color_2 = "#33a088"
+                    pale_color_1 = "#5B8178"
+                    pale_color_2 = "#658A83"
+                    bright_color_1 = "#39BDA0"
+                    bright_color_2 = "#57E4C5" 
+                elif theme_color == "orange":
+                    color_1 = "#e7a567"
+                    color_2 = "#f3b47a"
+                    pale_color_1 = "#BB9572"
+                    pale_color_2 = "#C29D7B"
+                    bright_color_1 = "#e69d58"
+                    bright_color_2 = "#ebb583"
+                elif theme_color == "blue":
+                    color_1 = "#4077c0"
+                    color_2 = "#4983cf"
+                    pale_color_1 = "#5D7592"
+                    pale_color_2 = "#647d9b"
+                    bright_color_1 = "#5186CA"
+                    bright_color_2 = "#83AFE7"
+                elif theme_color == "violet":
+                    color_1 = "#8a5ba3"
+                    color_2 = "#9361ad"
+                    pale_color_1 = "#7A6885"
+                    pale_color_2 = "#857092"
+                    bright_color_1 = "#A863C9"
+                    bright_color_2 = "#C17BE2"                   
+                elif theme_color == "red":
+                    color_1 = "#d45858"
+                    color_2 = "#e06969"
+                    pale_color_1 = "#a76868"
+                    pale_color_2 = "#b36c6c"
+                    bright_color_1 = "#f86161"
+                    bright_color_2 = "#f78080"
+                elif theme_color == "white":
+                    color_1 = "#666666"
+                    color_2 = "#727272"
+                    pale_color_1 = "#999999"
+                    pale_color_2 = "#A5A5A5"
+                    bright_color_1 = "#7E7E7E"
+                    bright_color_2 = "#8D8D8D"
+
+
+            startscreen.clear()
+            startscreen_2.clear()
+            start(draw_bg)
 
 
 
@@ -559,8 +766,8 @@ start_screen()
 
 
 
-def start():
-    global BASE_PRICE, UPPER_GRAPH_X, LOWER_GRAPH_X, max_price, min_price, dollars_for_pixel, isend_upper_graph, is_real_time_graph, navigating, start_page_time, current_time, price_matrix_index, price_matrix, price_list, blocks_edges, times_list
+def start(func_draw_bg):
+    global BASE_PRICE, UPPER_GRAPH_X, LOWER_GRAPH_X, max_price, min_price, dollars_for_gap_between_lines, isend_upper_graph, is_real_time_graph, navigating, start_page_time, current_time, price_matrix_index, price_matrix, price_list, blocks_edges, times_list
     #==================== <determining the starting price> / <оперделение старовой цены> \/\/\/
     while not BASE_PRICE:
         try:
@@ -585,19 +792,11 @@ def start():
     upper_graph.goto(-620*SCALE_CONSTANT, 180*SCALE_CONSTANT)
     upper_graph.down()
 
-    t.up()
-    t.goto(0,0)
-    t.down()
-    t.pencolor("#383838")
-    t.dot(10000*SCALE_CONSTANT)
-    t.pencolor("#303030")
-    t.dot(1500*SCALE_CONSTANT)
-    t.pencolor("#2B2B2B")
-    t.dot(1200*SCALE_CONSTANT)
-    t.pencolor("#272727")
-    t.dot(750*SCALE_CONSTANT)
-    t.pencolor("#242424")
-    t.dot(300*SCALE_CONSTANT)
+
+    func_draw_bg(theme, bg_index)
+
+    t.pencolor("#000000")
+    t.fillcolor("#000000")
 
 
     price_len = len(str(int(BASE_PRICE)))*15.5*SCALE_CONSTANT + 80*SCALE_CONSTANT
@@ -764,7 +963,7 @@ def start():
         price_lines.down()
         price_lines.goto(575*SCALE_CONSTANT, BASE_PRICE*MASHTAB_1 - i*20*SCALE_CONSTANT)
         price_line_text.goto(580*SCALE_CONSTANT, BASE_PRICE*MASHTAB_1 - i*20*SCALE_CONSTANT - 8*SCALE_CONSTANT)
-        price_line_text.write(f"{round(BASE_PRICE - i*20*dollars_for_pixel, 2)}$", font = ("Arial" , font_size, 'normal'))
+        price_line_text.write(f"{round(BASE_PRICE - i*20*dollars_for_gap_between_lines, 2)}$", font = ("Arial" , font_size, 'normal'))
 
     #=== <from the center of the upper graph up> / <от центра верхнего графика вверх> \/\/\/
     for i in range(11):
@@ -773,7 +972,7 @@ def start():
         price_lines.down()
         price_lines.goto(575*SCALE_CONSTANT, BASE_PRICE*MASHTAB_1 + i*20*SCALE_CONSTANT)
         price_line_text.goto(580*SCALE_CONSTANT, BASE_PRICE*MASHTAB_1 + i*20*SCALE_CONSTANT - 8*SCALE_CONSTANT)
-        price_line_text.write(f"{round(BASE_PRICE + i*20*dollars_for_pixel, 2)}$", font = ("Arial" , font_size, 'normal'))
+        price_line_text.write(f"{round(BASE_PRICE + i*20*dollars_for_gap_between_lines, 2)}$", font = ("Arial" , font_size, 'normal'))
 
 
     #===== <lines for lower graph> / <линии для нижнего графика> \/\/\/
@@ -784,7 +983,7 @@ def start():
         price_lines.down()
         price_lines.goto(575*SCALE_CONSTANT, BASE_PRICE*MASHTAB_2 - i*20*SCALE_CONSTANT)
         price_line_text.goto(580*SCALE_CONSTANT, BASE_PRICE*MASHTAB_2 - i*20*SCALE_CONSTANT - 8*SCALE_CONSTANT)
-        price_line_text.write(f"{round(BASE_PRICE - i*20*dollars_for_pixel, 2)}$", font = ("Arial" , font_size, 'normal'))
+        price_line_text.write(f"{round(BASE_PRICE - i*20*dollars_for_gap_between_lines, 2)}$", font = ("Arial" , font_size, 'normal'))
 
     #=== <from the center of the lower graph up> / <от центра нижнего графика вверх> \/\/\/
     for i in range(11):
@@ -793,14 +992,16 @@ def start():
         price_lines.down()
         price_lines.goto(575*SCALE_CONSTANT, BASE_PRICE*MASHTAB_2 + i*20*SCALE_CONSTANT)
         price_line_text.goto(580*SCALE_CONSTANT, BASE_PRICE*MASHTAB_2 + i*20*SCALE_CONSTANT - 8*SCALE_CONSTANT)
-        price_line_text.write(f"{round(BASE_PRICE + i*20*dollars_for_pixel, 2)}$", font = ("Arial" , font_size, 'normal'))
+        price_line_text.write(f"{round(BASE_PRICE + i*20*dollars_for_gap_between_lines, 2)}$", font = ("Arial" , font_size, 'normal'))
 
 
     #========== <arrow keys to move between history pages> / <стреслки для перемещения между страницами истории> \/\/\/
     #===== <left arrow button> / <кнопка стрелка влево> \/\/\/
     #=== <back rectangle/gb for arrow> / <задний прямоугольник/фон для стрелки> \/\/\/
-    interface_palets.pencolor("#353535")
-    interface_palets.fillcolor("#3A3A3A")
+
+    interface_palets.pencolor(arrow_button_bg1)
+    interface_palets.fillcolor(arrow_button_bg2)
+
 
     interface_palets.up()
     interface_palets.goto(-660*SCALE_CONSTANT, 210*SCALE_CONSTANT)
@@ -830,8 +1031,8 @@ def start():
 
     #===== <right arrow button> / <кнопка стрелка вправо> \/\/\/
     #=== <back rectangle/gb for arrow> / <задний прямоугольник/фон для стрелки> \/\/\/
-    interface_palets.pencolor("#353535")
-    interface_palets.fillcolor("#3A3A3A")
+    interface_palets.pencolor(arrow_button_bg1)
+    interface_palets.fillcolor(arrow_button_bg2)
 
     interface_palets.up()
     interface_palets.goto(560*SCALE_CONSTANT, 210*SCALE_CONSTANT)
@@ -876,13 +1077,6 @@ def start():
     interface_lines.goto(660*SCALE_CONSTANT, -30*SCALE_CONSTANT)
 
 
-    #========== <version display> / <отображение версии> \/\/\/
-    interface_lines.up()
-    interface_lines.pencolor("#000000")
-    interface_lines.goto(-650*SCALE_CONSTANT, -445*SCALE_CONSTANT)
-    interface_lines.write(VERSION, font = ("Times New Roman" , int(25*SCALE_CONSTANT)))
-
-
     #==================== <screen update> / <обновление экрана> \/\/\/
     win.tracer(1)
 
@@ -906,12 +1100,12 @@ def start():
         max_price_text_line.clear()
         max_price_text_line.write(f"{price}$", font = ("Times New Roman" , int(20*SCALE_CONSTANT)))
 
-        y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_pixel
+        y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_gap_between_lines
 
         max_price_text_line.up()
         max_price_text_line.goto(-660*SCALE_CONSTANT, y)
         max_price_text_line.down()
-        max_price_text_line.pencolor('green')
+        max_price_text_line.pencolor("green")
         max_price_text_line.goto(575*SCALE_CONSTANT, y)
             
         max_price_text_line.up()
@@ -921,12 +1115,12 @@ def start():
 
         if is_real_time_graph:
             last_price = price_matrix[-1][-1] if price_matrix else BASE_PRICE
-            start_y = 180*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_pixel
+            start_y = 180*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_gap_between_lines
             prev_last = price_matrix[-1][-1] if price_matrix else BASE_PRICE
             redraw_prices(price_list, start_y, prev_last)
 
         if price_matrix:
-            y = -240*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_pixel
+            y = -240*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_gap_between_lines
 
             max_price_text_line.up()
             max_price_text_line.goto(-660*SCALE_CONSTANT, y)
@@ -950,7 +1144,7 @@ def start():
         min_price_text_line.clear()
         min_price_text_line.write(f"{price}$", font = ("Times New Roman" , int(20*SCALE_CONSTANT)))
 
-        y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_pixel
+        y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_gap_between_lines
 
         min_price_text_line.up()
         min_price_text_line.goto(-660*SCALE_CONSTANT, y)
@@ -965,12 +1159,12 @@ def start():
 
         if is_real_time_graph:
             last_price = price_matrix[-1][-1] if price_matrix else BASE_PRICE
-            start_y = 180*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_pixel
+            start_y = 180*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_gap_between_lines
             prev_last = price_matrix[-1][-1] if price_matrix else BASE_PRICE
             redraw_prices(price_list, start_y, prev_last)
 
         if price_matrix:
-            y = -240*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_pixel
+            y = -240*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_gap_between_lines
 
             min_price_text_line.up()
             min_price_text_line.goto(-660*SCALE_CONSTANT, y)
@@ -1032,7 +1226,7 @@ def start():
                 upper_graph.pencolor(color)
 
                 #===== <y coord definition> / <определение вертикальной координаты> \/\/\/
-                y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_pixel
+                y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_gap_between_lines
 
                 #===== <checking for appropriate scale> / <проверка на подходящий масштаб> \/\/\/
                 if y >= 385*SCALE_CONSTANT or y <= -25*SCALE_CONSTANT:
@@ -1060,17 +1254,20 @@ def start():
 
 
             #===== <segment color definition> / <определение цвета сегмента> \/\/\/
-            if len(price_matrix) != 60:
+            if len(price_matrix) != LOWER_GRAPH_BLOCKS:
                 color = 'green' if first_price < last_price else "#cc0000" if first_price > last_price else "#202020"
             else:
-                color = '#00AA00' if first_price < last_price else "#ff2222" if first_price > last_price else "#353535"
+                if is_real_time_graph:
+                    color = '#00AA00' if first_price < last_price else "#ff2222" if first_price > last_price else "#353535"
+                else:
+                    color = 'green' if first_price < last_price else "#cc0000" if first_price > last_price else "#202020"
 
             #===== <coords preparation> / <подготовка координат> \/\/\/
-            y1 = -240*SCALE_CONSTANT + (first_price - BASE_PRICE)/dollars_for_pixel
-            y2 = -240*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_pixel
+            y1 = -240*SCALE_CONSTANT + (first_price - BASE_PRICE)/dollars_for_gap_between_lines
+            y2 = -240*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_gap_between_lines
 
-            max_y = -240*SCALE_CONSTANT + (max_price_for_y - BASE_PRICE)/dollars_for_pixel
-            min_y = -240*SCALE_CONSTANT + (min_price_for_y - BASE_PRICE)/dollars_for_pixel
+            max_y = -240*SCALE_CONSTANT + (max_price_for_y - BASE_PRICE)/dollars_for_gap_between_lines
+            min_y = -240*SCALE_CONSTANT + (min_price_for_y - BASE_PRICE)/dollars_for_gap_between_lines
 
             max_y_hitbox = max_y            
             min_y_hitbox = min_y
@@ -1146,7 +1343,7 @@ def start():
             upper_graph.pencolor(color)
 
             #=== <draw segment> / <отрисовка сегмента> \/\/\/
-            y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_pixel
+            y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_gap_between_lines
 
             UPPER_GRAPH_X += SEGMENT_WIDTH
             upper_graph.goto(UPPER_GRAPH_X, y)
@@ -1180,11 +1377,11 @@ def start():
                 color = 'green' if first_price < last_price else "#cc0000"
 
             #=== <coords preparation> / <подготовка координат> \/\/\/
-            y1 = -240*SCALE_CONSTANT + (first_price - BASE_PRICE)/dollars_for_pixel
-            y2 = -240*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_pixel
+            y1 = -240*SCALE_CONSTANT + (first_price - BASE_PRICE)/dollars_for_gap_between_lines
+            y2 = -240*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_gap_between_lines
 
-            max_y = -240*SCALE_CONSTANT + (max_price_for_y - BASE_PRICE)/dollars_for_pixel
-            min_y = -240*SCALE_CONSTANT + (min_price_for_y - BASE_PRICE)/dollars_for_pixel
+            max_y = -240*SCALE_CONSTANT + (max_price_for_y - BASE_PRICE)/dollars_for_gap_between_lines
+            min_y = -240*SCALE_CONSTANT + (min_price_for_y - BASE_PRICE)/dollars_for_gap_between_lines
 
             #=== <draw block> / <отрисовка блока> \/\/\/
             lower_graph.pencolor(color)
@@ -1223,11 +1420,11 @@ def start():
 
             #=== <button color definition> / <определение цвета кнопки> \/\/\/
             if is_real_time_graph:
-                back_to_live_palet.pencolor(bright_color_1) #"#125042"
-                back_to_live_palet.fillcolor(bright_color_2) #  "#1b866f"     
+                back_to_live_palet.pencolor(bright_color_1)
+                back_to_live_palet.fillcolor(bright_color_2)   
             else:
-                back_to_live_palet.pencolor(color_1)#"#0d3b31"
-                back_to_live_palet.fillcolor(color_2)#"#145f4f"
+                back_to_live_palet.pencolor(color_1)
+                back_to_live_palet.fillcolor(color_2)
 
 
             #=== <redrawing> / <перерисовка> \/\/\/
@@ -1254,10 +1451,10 @@ def start():
 
     #========== <function for changing the scale of a graph> / <функция для изменения масштаба графика> \/\/\/
     def autoscaling():
-        global dollars_for_pixel, UPPER_GRAPH_X, LOWER_GRAPH_X
+        global dollars_for_gap_between_lines, UPPER_GRAPH_X, LOWER_GRAPH_X
 
         #===== <checking for the need for autoscaling> / <проверка на необходимость автомасштабирования> \/\/\/
-        if (upper_graph.ycor() >= 385*SCALE_CONSTANT or upper_graph.ycor() <= -25*SCALE_CONSTANT) or ((180*SCALE_CONSTANT + (price_list[-1] - BASE_PRICE)/dollars_for_pixel) >= 385*SCALE_CONSTANT or (180*SCALE_CONSTANT + (price_list[-1] - BASE_PRICE)/dollars_for_pixel) <= -30*SCALE_CONSTANT):
+        if (upper_graph.ycor() >= 385*SCALE_CONSTANT or upper_graph.ycor() <= -25*SCALE_CONSTANT) or ((180*SCALE_CONSTANT + (price_list[-1] - BASE_PRICE)/dollars_for_gap_between_lines) >= 385*SCALE_CONSTANT or (180*SCALE_CONSTANT + (price_list[-1] - BASE_PRICE)/dollars_for_gap_between_lines) <= -30*SCALE_CONSTANT):
             #===== <preparing> / <подготовка> \/\/\/
             upper_graph.clear()
             lower_graph.clear()
@@ -1266,28 +1463,30 @@ def start():
             UPPER_GRAPH_X = -620*SCALE_CONSTANT
 
             #===== <changes in scale> / <изменеия масштаба> \/\/\/
-            if dollars_for_pixel == 0.05*SCALE_CONSTANT:
-                dollars_for_pixel = 0.1*SCALE_CONSTANT
-            elif dollars_for_pixel == 0.1*SCALE_CONSTANT:
-                dollars_for_pixel = 0.15*SCALE_CONSTANT
-            elif dollars_for_pixel <= 0.15*SCALE_CONSTANT:
-                dollars_for_pixel = 0.25*SCALE_CONSTANT
-            elif dollars_for_pixel <= 0.25*SCALE_CONSTANT:
-                dollars_for_pixel = 0.35*SCALE_CONSTANT
-            elif dollars_for_pixel <= 0.35*SCALE_CONSTANT:
-                dollars_for_pixel = 0.5*SCALE_CONSTANT
-            elif dollars_for_pixel == 0.5*SCALE_CONSTANT:
-                dollars_for_pixel = 0.75*SCALE_CONSTANT
-            elif dollars_for_pixel == 0.75*SCALE_CONSTANT:
-                dollars_for_pixel = 1*SCALE_CONSTANT
-            elif dollars_for_pixel == 1*SCALE_CONSTANT:
-                dollars_for_pixel = 1.75*SCALE_CONSTANT
-            elif dollars_for_pixel == 1.75*SCALE_CONSTANT:
-                dollars_for_pixel = 2.5*SCALE_CONSTANT
-            elif dollars_for_pixel == 2.5*SCALE_CONSTANT:
-                dollars_for_pixel = 5*SCALE_CONSTANT
+            if dollars_for_gap_between_lines == 0.05:
+                dollars_for_gap_between_lines = 0.1
+            elif dollars_for_gap_between_lines == 0.1:
+                dollars_for_gap_between_lines = 0.15
+            elif dollars_for_gap_between_lines <= 0.15:
+                dollars_for_gap_between_lines = 0.25
+            elif dollars_for_gap_between_lines <= 0.25:
+                dollars_for_gap_between_lines = 0.35
+            elif dollars_for_gap_between_lines <= 0.35:
+                dollars_for_gap_between_lines = 0.5
+            elif dollars_for_gap_between_lines == 0.5:
+                dollars_for_gap_between_lines = 0.75
+            elif dollars_for_gap_between_lines == 0.75:
+                dollars_for_gap_between_lines = 1
+            elif dollars_for_gap_between_lines == 1:
+                dollars_for_gap_between_lines = 1.75
+            elif dollars_for_gap_between_lines == 1.75:
+                dollars_for_gap_between_lines = 2.5
+            elif dollars_for_gap_between_lines == 2.5:
+                dollars_for_gap_between_lines = 3.75
+            elif dollars_for_gap_between_lines == 3.75:
+                dollars_for_gap_between_lines = 5
             else:
-                dollars_for_pixel += 5*SCALE_CONSTANT
+                dollars_for_gap_between_lines += 5
 
 
 
@@ -1296,7 +1495,7 @@ def start():
                 last_price = BASE_PRICE if not price_matrix else price_matrix[-1][-1]
 
                 upper_graph.up()
-                upper_graph.goto(UPPER_GRAPH_X, 180*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_pixel)
+                upper_graph.goto(UPPER_GRAPH_X, 180*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_gap_between_lines)
                 upper_graph.down()
 
                 #=== <redrawing> / <перерисовка> \/\/\/
@@ -1311,7 +1510,7 @@ def start():
 
 
                     #== <y coord definition> / <определение вертикальной координаты> \/\/\/
-                    y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_pixel
+                    y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_gap_between_lines
 
                     #== <checking for appropriate scale> / <проверка на подходящий масштаб> \/\/\/
                     if y >= 385*SCALE_CONSTANT or y <= -25*SCALE_CONSTANT:
@@ -1327,7 +1526,7 @@ def start():
                 first_price = price_matrix[price_matrix_index][0]
 
                 upper_graph.up()
-                upper_graph.goto(UPPER_GRAPH_X, 180*SCALE_CONSTANT + (first_price - BASE_PRICE)/dollars_for_pixel)
+                upper_graph.goto(UPPER_GRAPH_X, 180*SCALE_CONSTANT + (first_price - BASE_PRICE)/dollars_for_gap_between_lines)
                 upper_graph.down()
 
                 #=== <redrawing> / <перерисовка> \/\/\/
@@ -1342,7 +1541,7 @@ def start():
                     upper_graph.pencolor(color)
 
                     #== <y coord definition> / <определение вертикальной координаты> \/\/\/
-                    y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_pixel
+                    y = 180*SCALE_CONSTANT + (price - BASE_PRICE)/dollars_for_gap_between_lines
 
                     #== <checking for appropriate scale> / <проверка на подходящий масштаб> \/\/\/
                     if y >= 385*SCALE_CONSTANT or y <= -25*SCALE_CONSTANT:
@@ -1378,11 +1577,11 @@ def start():
 
 
                     #== <coords preparation> / <подготовка координат> \/\/\/
-                    y1 = -240*SCALE_CONSTANT + (first_price - BASE_PRICE)/dollars_for_pixel
-                    y2 = -240*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_pixel
+                    y1 = -240*SCALE_CONSTANT + (first_price - BASE_PRICE)/dollars_for_gap_between_lines
+                    y2 = -240*SCALE_CONSTANT + (last_price - BASE_PRICE)/dollars_for_gap_between_lines
 
-                    max_y = -240*SCALE_CONSTANT + (max_price_for_y - BASE_PRICE)/dollars_for_pixel
-                    min_y = -240*SCALE_CONSTANT + (min_price_for_y - BASE_PRICE)/dollars_for_pixel
+                    max_y = -240*SCALE_CONSTANT + (max_price_for_y - BASE_PRICE)/dollars_for_gap_between_lines
+                    min_y = -240*SCALE_CONSTANT + (min_price_for_y - BASE_PRICE)/dollars_for_gap_between_lines
 
                     max_y_hitbox = max_y            
                     min_y_hitbox = min_y
@@ -1429,22 +1628,22 @@ def start():
             #===== <updating the prices> / <обновление цен> \/\/\/     
             for i in range(11):
                 price_line_text.goto(580*SCALE_CONSTANT, BASE_PRICE*MASHTAB_1 - i*20*SCALE_CONSTANT - 8*SCALE_CONSTANT)
-                price_line_text.write(f"{round(BASE_PRICE - (i*20)*dollars_for_pixel, 2)}$", font = ("Arial" , font_size, 'normal'))
+                price_line_text.write(f"{round(BASE_PRICE - (i*20)*dollars_for_gap_between_lines, 2)}$", font = ("Arial" , font_size, 'normal'))
 
 
             for i in range(11):
                 price_line_text.goto(580*SCALE_CONSTANT, BASE_PRICE*MASHTAB_1 + i*20*SCALE_CONSTANT - 8*SCALE_CONSTANT)
-                price_line_text.write(f"{round(BASE_PRICE + (i*20)*dollars_for_pixel, 2)}$", font = ("Arial" , font_size, 'normal'))
+                price_line_text.write(f"{round(BASE_PRICE + (i*20)*dollars_for_gap_between_lines, 2)}$", font = ("Arial" , font_size, 'normal'))
 
 
             for i in range(11):
                 price_line_text.goto(580*SCALE_CONSTANT, BASE_PRICE*MASHTAB_2 - i*20*SCALE_CONSTANT - 8*SCALE_CONSTANT)
-                price_line_text.write(f"{round(BASE_PRICE - (i*20)*dollars_for_pixel, 2)}$", font = ("Arial" , font_size, 'normal'))
+                price_line_text.write(f"{round(BASE_PRICE - (i*20)*dollars_for_gap_between_lines, 2)}$", font = ("Arial" , font_size, 'normal'))
 
 
             for i in range(11):
                 price_line_text.goto(580*SCALE_CONSTANT, BASE_PRICE*MASHTAB_2 + i*20*SCALE_CONSTANT - 8*SCALE_CONSTANT)
-                price_line_text.write(f"{round(BASE_PRICE + (i*20)*dollars_for_pixel, 2)}$", font = ("Arial" , font_size, 'normal'))
+                price_line_text.write(f"{round(BASE_PRICE + (i*20)*dollars_for_gap_between_lines, 2)}$", font = ("Arial" , font_size, 'normal'))
 
 
     #========== <function of redrawing some parts of the interface> / <функция перерисовки некоторых частей интерфейса> \/\/\/
@@ -1454,8 +1653,8 @@ def start():
         #===== <arrow keys to move between history pages> / <стреслки для перемещения между страницами истории> \/\/\/
         #=== <left arrow button> / <кнопка стрелка влево> \/\/\/
         #== <back rectangle/gb for arrow> / <задний прямоугольник/фон для стрелки> \/\/\/
-        interface_palets.pencolor("#353535")
-        interface_palets.fillcolor("#3A3A3A")
+        interface_palets.pencolor(arrow_button_bg1)
+        interface_palets.fillcolor(arrow_button_bg2)
 
         interface_palets.up()
         interface_palets.goto(-660*SCALE_CONSTANT, 210*SCALE_CONSTANT)
@@ -1468,8 +1667,8 @@ def start():
         interface_palets.end_fill()
 
         if price_matrix_index > 0:
-            interface_palets.pencolor(color_1)
-            interface_palets.fillcolor(color_2)
+            interface_palets.pencolor(bright_color_1)
+            interface_palets.fillcolor(bright_color_2)
         else:
             interface_palets.pencolor(pale_color_1)
             interface_palets.fillcolor(pale_color_2)
@@ -1487,8 +1686,8 @@ def start():
 
         #=== <right arrow button> / <кнопка стрелка вправо> \/\/\/
         #== <back rectangle/gb for arrow> / <задний прямоугольник/фон для стрелки> \/\/\/
-        interface_palets.pencolor("#353535")
-        interface_palets.fillcolor("#3A3A3A")
+        interface_palets.pencolor(arrow_button_bg1)
+        interface_palets.fillcolor(arrow_button_bg2)
 
         interface_palets.up()
         interface_palets.goto(560*SCALE_CONSTANT, 210*SCALE_CONSTANT)
@@ -1509,8 +1708,8 @@ def start():
             can_go_right = False
         
         if can_go_right:
-            interface_palets.pencolor(color_1)
-            interface_palets.fillcolor(color_2)
+            interface_palets.pencolor(bright_color_1)
+            interface_palets.fillcolor(bright_color_2)
         else:
             interface_palets.pencolor(pale_color_1)
             interface_palets.fillcolor(pale_color_2)
@@ -1579,7 +1778,12 @@ def start():
 
         #========== <version display> / <отображение версии> \/\/\/
         interface_lines.up()
-        interface_lines.pencolor("#000000")
+
+        if theme == "DARK":
+            interface_lines.pencolor("#000000")        
+        elif theme == "LIGHT":
+            interface_lines.pencolor("#303030")
+
         interface_lines.goto(-650*SCALE_CONSTANT, -445*SCALE_CONSTANT)
         interface_lines.write(VERSION, font = ("Times New Roman" , int(25*SCALE_CONSTANT)))
 
@@ -1627,7 +1831,7 @@ def start():
 
                 #== <data preparation> / <подготовка данных> \/\/\/
                 prices = price_matrix[price_matrix_index]
-                start_y = 180*SCALE_CONSTANT + (prices[0] - BASE_PRICE) / dollars_for_pixel
+                start_y = 180*SCALE_CONSTANT + (prices[0] - BASE_PRICE) / dollars_for_gap_between_lines
                 prev_last = price_matrix[price_matrix_index - 1][-1] if price_matrix_index > 0 else BASE_PRICE
 
 
@@ -1651,7 +1855,7 @@ def start():
                         #= <data preparation> / <подготовка данных> \/\/\/
                         prices = price_matrix[price_matrix_index]
                         prev_last = price_matrix[price_matrix_index - 1][-1]
-                        start_y = 180*SCALE_CONSTANT + (prices[0] - BASE_PRICE) / dollars_for_pixel
+                        start_y = 180*SCALE_CONSTANT + (prices[0] - BASE_PRICE) / dollars_for_gap_between_lines
 
 
                         #== <drawing the history page> / <отрисовка страници истории> \/\/\/
@@ -1671,7 +1875,7 @@ def start():
 
                         #= <data preparation> / <подготовка данных> \/\/\/
                         prev_last = price_matrix[-1][-1]
-                        start_y = 180*SCALE_CONSTANT + (prev_last - BASE_PRICE) / dollars_for_pixel
+                        start_y = 180*SCALE_CONSTANT + (prev_last - BASE_PRICE) / dollars_for_gap_between_lines
 
 
                         #== <drawing the history page> / <отрисовка страници истории> \/\/\/
@@ -1689,7 +1893,7 @@ def start():
 
                         #=== <data preparation> / <подготовка данных> \/\/\/
                         prev_last = price_matrix[-1][-1]
-                        start_y = 180*SCALE_CONSTANT + (prev_last - BASE_PRICE) / dollars_for_pixel
+                        start_y = 180*SCALE_CONSTANT + (prev_last - BASE_PRICE) / dollars_for_gap_between_lines
                         is_real_time_graph = True
                         price_matrix_index = len(price_matrix)
 
@@ -1700,11 +1904,11 @@ def start():
                         update_interface()                        
                         update_price(price_list[-1] if price_list else price_matrix[-1][-1])
                         win.tracer(1)
-                        
+
 
         finally:
             navigating = False
-            
+
 
     #========== <function to move to the history page> / <функция перемещения на страницу истории> \/\/\/
     def go_to_history_page(page):
@@ -1715,7 +1919,7 @@ def start():
 
         #===== <data preparation> / <подготовка данных> \/\/\/
         prices = price_matrix[price_matrix_index]
-        start_y = 180*SCALE_CONSTANT + (prices[0] - BASE_PRICE)/dollars_for_pixel
+        start_y = 180*SCALE_CONSTANT + (prices[0] - BASE_PRICE)/dollars_for_gap_between_lines
         prev_last = price_matrix[price_matrix_index - 1][-1] if price_matrix_index != 0 else BASE_PRICE
 
         #===== <drawing the history page> / <отрисовка страници истории> \/\/\/
