@@ -126,7 +126,7 @@ arrow_button_bg2 = "#3A3A3A"
 
 #==================== <version> / <версия> \/\/\/
 
-VERSION = "version 1.0.6"
+VERSION = "version 3.0.6"
 
 #==================== <start screen> / <стартовый экран> \/\/\/
 def start_screen():
