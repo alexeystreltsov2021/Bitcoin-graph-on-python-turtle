@@ -77,8 +77,9 @@ price_line_text.up()
 max_price_text_line.up()
 min_price_text_line.up()
 
-startscreen_2.speed(0)
 
+#========== <additional settings> / <дополнительные настройки> \/\/\/
+startscreen_2.speed(0)
 t.bgcolor("#3F3F3F")
 
 
@@ -126,7 +127,8 @@ arrow_button_bg2 = "#3A3A3A"
 
 #==================== <version> / <версия> \/\/\/
 
-VERSION = "version 3.0.6"
+VERSION = "version 3.0.7"
+
 
 #==================== <start screen> / <стартовый экран> \/\/\/
 def start_screen():
@@ -150,6 +152,7 @@ def start_screen():
 
     win.tracer(1)
 
+    #========== <for a short delay> / <для небольшой задержки> \/\/\/
     startscreen.up()
     startscreen.goto(-590*SCALE_CONSTANT, 250*SCALE_CONSTANT)
     startscreen.speed(0)
@@ -183,7 +186,7 @@ def start_screen():
     startscreen.write("3", font = ("Times New Roman" , int(100*SCALE_CONSTANT)))
 
     #========== <delay> / <задержка> \/\/\/
-    startscreen.speed(5)
+    startscreen.speed(4)
 
     #========== <preparing> / <подготовка> \/\/\/
     startscreen.up()
@@ -225,26 +228,34 @@ def start_screen():
     #========== <preparing> / <подготовка> \/\/\/
     time.sleep(1)
 
-    #========== <version display> / <отображение версии> \/\/\/
+
+    #========== <last preparation of the first screen> / <последняя подготовка первого экрана> \/\/\/  
     win.tracer(0)
+
+    #===== <version display> / <отображение версии> \/\/\/    
     startscreen.pencolor("#000000")
     startscreen.up()
     startscreen.goto(-650*SCALE_CONSTANT, -445*SCALE_CONSTANT)
     startscreen.write(VERSION, font = ("Times New Roman" , int(25*SCALE_CONSTANT)))
 
+    #===== <logo display> / <отображение логотипа> \/\/\/ 
     startscreen.goto(0,-200*SCALE_CONSTANT)
     startscreen.left(90)
     startscreen.showturtle()
+
     win.tracer(1)
+
 
     #========== <delay> / <задержка> \/\/\/
     time.sleep(2)
 
-    win.tracer(0)
+    #========== <preparation for the second screen> / <подготовка для второго экрана> \/\/\/
     startscreen.hideturtle()
 
 
+    #========== <function for drawing blocks for choosing theme colors> / <функция для отрисовки блоков для выбора цвета темы> \/\/\/
     def draw_theme_block(x1, x2, y1, y2, color_1, color_2):
+        #===== <drawing a block for choosing a theme color> / <отрисовка блока для выбора цвета темы> \/\/\/
         startscreen.pencolor(color_1)
         startscreen.fillcolor(color_2)
         startscreen.pensize(6*SCALE_CONSTANT)
@@ -258,6 +269,7 @@ def start_screen():
         startscreen.goto(x1*SCALE_CONSTANT, y1*SCALE_CONSTANT)
         startscreen.end_fill()
 
+        #===== <preparation for drawing field to indicate the selected color> / <подготовка к рисованию поля для индикации выбраного цвета> \/\/\/
         if theme == "DARK":
             startscreen.pencolor("#3d3d3d")
             startscreen.fillcolor("#4D4D4D")
@@ -265,6 +277,7 @@ def start_screen():
             startscreen.pencolor("#6B6B6B")
             startscreen.fillcolor("#777777")
 
+        #===== <drawing field to indicate the selected color> / <отрисовка поля для индикации выбраного цвета> \/\/\/
         startscreen.pensize(4*SCALE_CONSTANT)
         startscreen.up()
         startscreen.goto(x1*SCALE_CONSTANT+25*SCALE_CONSTANT, 55*SCALE_CONSTANT)
@@ -277,8 +290,11 @@ def start_screen():
         startscreen.end_fill()
 
 
+    #========== <function for drawing bg> / <функция для отрисовки заднего фона> \/\/\/
     def draw_bg(theme, bg_index):
-        if theme == "DARK":   
+        #========== <if theme is DARK> / <если тема тёмная> \/\/\/
+        if theme == "DARK":
+            #========== <first bg> / <первый фон> \/\/\/
             if bg_index == 0:
                 startscreen.goto(0,0)
                 startscreen.pencolor("#383838")
@@ -293,7 +309,7 @@ def start_screen():
                 startscreen.dot(550*SCALE_CONSTANT)
                 startscreen.pencolor("#222222")
                 startscreen.dot(250*SCALE_CONSTANT)
-
+            #========== <second bg> / <второй фон> \/\/\/
             elif bg_index == 1:
                 startscreen.pencolor("#303030")
                 startscreen.dot(10000*SCALE_CONSTANT)
@@ -311,13 +327,15 @@ def start_screen():
                     startscreen.goto(-660*SCALE_CONSTANT, (375-(i*160))*SCALE_CONSTANT)
                     startscreen.goto((-660+(i*80))*SCALE_CONSTANT, 455*SCALE_CONSTANT)
                     startscreen.end_fill()
-
+            #========== <third bg> / <третий фон> \/\/\/
             elif bg_index == 2:
                 startscreen.pencolor("#2C2C2C")
                 startscreen.dot(10000*SCALE_CONSTANT)
 
+
+        #========== <if theme is LIGHT> / <если тема светлая> \/\/\/
         elif theme == "LIGHT":
-            #========== <background> / <задний фон> \/\/\/
+            #========== <first bg> / <первый фон> \/\/\/
             if bg_index == 0:
                 startscreen.goto(0,0)
                 startscreen.pencolor("#BBBBBB")
@@ -332,7 +350,7 @@ def start_screen():
                 startscreen.dot(550*SCALE_CONSTANT)
                 startscreen.pencolor("#888888")
                 startscreen.dot(250*SCALE_CONSTANT)
-
+            #========== <second bg> / <второй фон> \/\/\/
             elif bg_index == 1:
                 startscreen.pencolor("#B4B4B4")
                 startscreen.dot(10000*SCALE_CONSTANT)
@@ -350,16 +368,18 @@ def start_screen():
                     startscreen.goto(-660*SCALE_CONSTANT, (375-(i*160))*SCALE_CONSTANT)
                     startscreen.goto((-660+(i*80))*SCALE_CONSTANT, 455*SCALE_CONSTANT)
                     startscreen.end_fill()
-
+            #========== <third bg> / <третий фон> \/\/\/
             elif bg_index == 2:
                 startscreen.pencolor("#808080")
                 startscreen.dot(10000*SCALE_CONSTANT)
 
 
-
+    #========== <function for redrawing the settings screen> / <функция для перерисовки экрана с настройками> \/\/\/
     def redraw_setting_screen(theme, bg_index):
+        #===== <draw background> / <отрисовка заднего фона> \/\/\/
         draw_bg(theme, bg_index)
 
+        #===== <choice of color depending on the chosen theme> / <выбор цвета в зависимости от выбранной темы> \/\/\/
         if theme == "DARK":
             startscreen.pencolor("#000000")
         elif theme == "LIGHT":
@@ -382,10 +402,10 @@ def start_screen():
         startscreen.goto(-630*SCALE_CONSTANT, -155*SCALE_CONSTANT)
         startscreen.write("Switch bg:", font = ("Times New Roman" , int(80*SCALE_CONSTANT)))
 
-
-
-
+        #========== <if theme is DARK> / <если тема тёмная> \/\/\/
         if theme == "DARK":
+            #===== <change theme button> / <кнопка изменения темы> \/\/\/
+            #===== <block> / <основа> \/\/\/
             startscreen.pencolor("#1B1B1B")
             startscreen.fillcolor("#222222")
             startscreen.pensize(4*SCALE_CONSTANT)
@@ -399,12 +419,15 @@ def start_screen():
             startscreen.goto(-35*SCALE_CONSTANT, 330*SCALE_CONSTANT)
             startscreen.end_fill()
 
+            #===== <text> / <текст> \/\/\/
             startscreen.up()
             startscreen.goto(-25*SCALE_CONSTANT, 312*SCALE_CONSTANT)
             startscreen.pencolor("#0F0F0F")
             startscreen.write("DARK", font = ("Times New Roman" , int(80*SCALE_CONSTANT)))
 
 
+            #===== <background change button> / <кнопка изменения заднего фона> \/\/\/
+            #===== <block> / <основа> \/\/\/
             startscreen.pencolor("#1B1B1B")
             startscreen.fillcolor("#222222")
             startscreen.pensize(4*SCALE_CONSTANT)
@@ -418,7 +441,7 @@ def start_screen():
             startscreen.goto(-150*SCALE_CONSTANT, -150*SCALE_CONSTANT)
             startscreen.end_fill()
 
-
+            #===== <text> / <текст> \/\/\/
             startscreen.up()
             startscreen.goto(-140*SCALE_CONSTANT, -160*SCALE_CONSTANT)
             startscreen.pencolor("#0F0F0F")
@@ -466,7 +489,10 @@ def start_screen():
             draw_theme_block(450, 550, 180, 80, "#969696", "#A3A3A3")
 
 
+        #========== <if theme is LIGHT> / <если тема светая> \/\/\/
         elif theme == "LIGHT":
+            #===== <change theme button> / <кнопка изменения темы> \/\/\/
+            #===== <block> / <основа> \/\/\/
             startscreen.pencolor("#B4B4B4")
             startscreen.fillcolor("#CCCCCC")
             startscreen.pensize(4*SCALE_CONSTANT)
@@ -480,12 +506,15 @@ def start_screen():
             startscreen.goto(-35*SCALE_CONSTANT, 330*SCALE_CONSTANT)
             startscreen.end_fill()
 
+            #===== <text> / <текст> \/\/\/
             startscreen.up()
             startscreen.goto(-25*SCALE_CONSTANT, 312*SCALE_CONSTANT)
             startscreen.pencolor("#AAAAAA")
             startscreen.write("LIGHT", font = ("Times New Roman" , int(80*SCALE_CONSTANT)))
 
 
+            #===== <background change button> / <кнопка изменения заднего фона> \/\/\/
+            #===== <block> / <основа> \/\/\/
             startscreen.pencolor("#B4B4B4")
             startscreen.fillcolor("#CCCCCC")
             startscreen.pensize(4*SCALE_CONSTANT)
@@ -499,6 +528,7 @@ def start_screen():
             startscreen.goto(-150*SCALE_CONSTANT, -150*SCALE_CONSTANT)
             startscreen.end_fill()
 
+            #===== <text> / <текст> \/\/\/
             startscreen.up()
             startscreen.goto(-140*SCALE_CONSTANT, -160*SCALE_CONSTANT)
             startscreen.pencolor("#AAAAAA")
@@ -546,6 +576,7 @@ def start_screen():
             draw_theme_block(450, 550, 180, 80, "#666666", "#727272")
 
 
+
         #========== <indicator dot of the selected theme> / <точка-индикатор выбранной темы> \/\/\/
         list_with_colors = ["green", "orange", "blue", "violet", "red", "white"]
         ind = list_with_colors.index(theme_color)
@@ -563,6 +594,8 @@ def start_screen():
 
 
     #========== <setting default value> / <установка заначения по умолчанию> \/\/\/
+    win.tracer(0)
+
     startscreen_2.up()
     startscreen_2.goto(-500*SCALE_CONSTANT, 150*SCALE_CONSTANT)
     startscreen_2.down()
@@ -570,10 +603,10 @@ def start_screen():
     startscreen_2.pencolor("#3d3d3d")
     startscreen_2.dot(25*SCALE_CONSTANT)
 
+    #========== <draw second screen> / <отрисока второго экрана> \/\/\/
     redraw_setting_screen("DARK", bg_index)
 
     win.tracer(1)
-
 
 
     #========== <click test> / <проверка нажатия> \/\/\/
@@ -651,8 +684,9 @@ def start_screen():
             theme_color = "white"
             startscreen_2.dot(25*SCALE_CONSTANT)
 
-        #===== <theme installation> / <установка темы> \/\/\/
+        #===== <theme color installation> / <установка цвета темы> \/\/\/
         elif x < 170*SCALE_CONSTANT and x > -170*SCALE_CONSTANT and y > -350*SCALE_CONSTANT and y < -250*SCALE_CONSTANT:
+                #=== <if theme is DARK> / <если тема тёмная> \/\/\/            
             if theme == "DARK":
                 arrow_button_bg1 = "#353535"
                 arrow_button_bg1 = "#3A3A3A"
@@ -703,6 +737,7 @@ def start_screen():
                     bright_color_1 = "#b4b4b4"
                     bright_color_2 = "#cccccc"
 
+            #=== <if theme is LIGHT> / <если тема светая> \/\/\/
             elif theme == "LIGHT":
                 arrow_button_bg1 = "#808080"
                 arrow_button_bg2 = "#8A8A8A"
@@ -759,15 +794,17 @@ def start_screen():
             start(draw_bg)
 
 
-
     win.onclick(click, 1)
 
 start_screen()
 
 
-
 def start(func_draw_bg):
-    global BASE_PRICE, UPPER_GRAPH_X, LOWER_GRAPH_X, max_price, min_price, dollars_for_gap_between_lines, isend_upper_graph, is_real_time_graph, navigating, start_page_time, current_time, price_matrix_index, price_matrix, price_list, blocks_edges, times_list
+    global BASE_PRICE, UPPER_GRAPH_X, LOWER_GRAPH_X    
+    global max_price, min_price, price_matrix, price_list
+    global start_page_time, current_time, times_list
+    global dollars_for_gap_between_lines
+    global isend_upper_graph, is_real_time_graph, navigating,price_matrix_index, blocks_edges
     #==================== <determining the starting price> / <оперделение старовой цены> \/\/\/
     while not BASE_PRICE:
         try:
@@ -777,8 +814,6 @@ def start(func_draw_bg):
         except req.exceptions.ConnectionError:
             print('ошибка соединения')
             BASE_PRICE = None
-
-    print(BASE_PRICE)
 
     #==================== <preparing the program> / <подготовка программы> \/\/\/
     max_price = BASE_PRICE
@@ -1699,15 +1734,8 @@ def start(func_draw_bg):
         interface_palets.goto(560*SCALE_CONSTANT, 210*SCALE_CONSTANT)
         interface_palets.end_fill()
 
-        can_go_right = False
-        if not is_real_time_graph:
-            if price_matrix_index <= len(price_matrix) - 1:
-                can_go_right = True
 
-        if price_matrix_index == LOWER_GRAPH_BLOCKS-1:
-            can_go_right = False
-        
-        if can_go_right:
+        if not is_real_time_graph and price_matrix_index != LOWER_GRAPH_BLOCKS-1:
             interface_palets.pencolor(bright_color_1)
             interface_palets.fillcolor(bright_color_2)
         else:
@@ -1804,10 +1832,7 @@ def start(func_draw_bg):
                 for i in range(len(blocks_edges)):
                     #=== <hitbox hit check> / <проверка на поподание в хитбокс> \/\/\/
                     if (x > blocks_edges[i][0] and x < blocks_edges[i][1]) and (y > blocks_edges[i][2] and y < blocks_edges[i][3]):
-                        if i + 1 != LOWER_GRAPH_BLOCKS:
-                            is_real_time_graph = False
-                        else:
-                            is_real_time_graph = True
+                        is_real_time_graph = False
 
                         #=== <drawing the history page> / <отрисовка страници истории> \/\/\/
                         win.tracer(0)
@@ -1816,26 +1841,26 @@ def start(func_draw_bg):
                         win.tracer(1)
 
                         return
-
+                    
 
             #===== <click on the arrow> / <клик по стрелке> \/\/\/
             #=== <click on the left arrow> / <клик по стрелке влево> \/\/\/
             #== <hitbox hit check> / <проверка на поподание в хитбокс> \/\/\/
             if x > -660*SCALE_CONSTANT and x < -630*SCALE_CONSTANT and y > 150*SCALE_CONSTANT and y < 210*SCALE_CONSTANT and price_matrix_index != 0:
-                if is_real_time_graph:
-                    if not price_matrix:
-                        return
-                    is_real_time_graph = False
+                if not price_matrix or price_matrix_index == 0:
+                    return
+
+                is_real_time_graph = False
 
                 price_matrix_index -= 1
 
-                #== <data preparation> / <подготовка данных> \/\/\/
+                #= <data preparation> / <подготовка данных> \/\/\/
                 prices = price_matrix[price_matrix_index]
                 start_y = 180*SCALE_CONSTANT + (prices[0] - BASE_PRICE) / dollars_for_gap_between_lines
                 prev_last = price_matrix[price_matrix_index - 1][-1] if price_matrix_index > 0 else BASE_PRICE
 
 
-                #== <drawing the history page> / <отрисовка страници истории> \/\/\/
+                #= <drawing the history page> / <отрисовка страници истории> \/\/\/
                 win.tracer(0)
                 redraw_prices(prices=prices, start_y=start_y, prev_last=prev_last)
                 redraw_lower_graph()
@@ -1846,9 +1871,9 @@ def start(func_draw_bg):
 
             #=== <click on the right arrow> / <клик по стрелке вправо> \/\/\/
             elif x > 530*SCALE_CONSTANT and x < 560*SCALE_CONSTANT and y > 150*SCALE_CONSTANT and y < 210*SCALE_CONSTANT:
-                if not is_real_time_graph:
+                if not is_real_time_graph and price_matrix_index != LOWER_GRAPH_BLOCKS-1:
                     #== <if the graph is not in live mode after moving> /
-                    #== <Если после перемещения график не находится в live режиме> \/\/\/
+                    #= <Если после перемещения график не находится в live режиме> \/\/\/
                     if price_matrix_index < len(price_matrix) - 1:
                         price_matrix_index += 1
 
@@ -1858,7 +1883,7 @@ def start(func_draw_bg):
                         start_y = 180*SCALE_CONSTANT + (prices[0] - BASE_PRICE) / dollars_for_gap_between_lines
 
 
-                        #== <drawing the history page> / <отрисовка страници истории> \/\/\/
+                        #= <drawing the history page> / <отрисовка страници истории> \/\/\/
                         win.tracer(0)
                         redraw_prices(prices=prices, start_y=start_y, prev_last=prev_last)
                         redraw_lower_graph()
@@ -1868,7 +1893,7 @@ def start(func_draw_bg):
 
 
                     #== <if after moving the graph goes into live mode> /
-                    #== <Если после перемещения график переходит в live режим> \/\/\/
+                    #= <Если после перемещения график переходит в live режим> \/\/\/
                     elif price_matrix_index == len(price_matrix) - 1 and price_list:
                         is_real_time_graph = True
                         price_matrix_index += 1
@@ -1878,7 +1903,7 @@ def start(func_draw_bg):
                         start_y = 180*SCALE_CONSTANT + (prev_last - BASE_PRICE) / dollars_for_gap_between_lines
 
 
-                        #== <drawing the history page> / <отрисовка страници истории> \/\/\/
+                        #= <drawing the history page> / <отрисовка страници истории> \/\/\/
                         win.tracer(0)
                         redraw_prices(price_list, start_y, prev_last)
                         redraw_lower_graph()
@@ -1888,7 +1913,7 @@ def start(func_draw_bg):
 
             #===== <click on the back to live button> / <клик по конпке возврата в live> \/\/\/
             elif x > LOWER_GRAPH_X and x < LOWER_GRAPH_X + 20*SCALE_CONSTANT and y > -300*SCALE_CONSTANT and y < -210*SCALE_CONSTANT:
-                if not is_real_time_graph:
+                if not is_real_time_graph and price_matrix_index != LOWER_GRAPH_BLOCKS-1:
                     if len(price_matrix) != LOWER_GRAPH_BLOCKS:
 
                         #=== <data preparation> / <подготовка данных> \/\/\/
@@ -1912,7 +1937,7 @@ def start(func_draw_bg):
 
     #========== <function to move to the history page> / <функция перемещения на страницу истории> \/\/\/
     def go_to_history_page(page):
-        global is_real_time_graph, price_matrix_index, navigating
+        global price_matrix_index, navigating
                     
 
         price_matrix_index = page
@@ -1943,22 +1968,28 @@ def start(func_draw_bg):
     #==================== <program preparation> / <подготовка программы> \/\/\/
     start_page_time = time.strftime("%H:%M", time.localtime())
 
+
+
     win.tracer(0)
     redraw_back_to_live_palet()
     win.tracer(1)
 
+
     #==================== <function main> / <главная функция> \/\/\/
     def main():
-        global price_matrix, price_list, UPPER_GRAPH_X, max_price, min_price, price_matrix_index, isend_upper_graph, current_time
+        global price_matrix, price_list, max_price, min_price
+        global UPPER_GRAPH_X, price_matrix_index, isend_upper_graph, is_real_time_graph, current_time
         try:
             win.tracer(0)
 
-            #========== <check for completion> / <проверка на завершение> \/\/\/
+            #========== <check for completion of the upper graph> / <проверка на завершение верхнего графика> \/\/\/
             end_upper_graph()
 
+            #===== <if the upperp graph ends in live mode> / <если верхний график заканчивается в live режиме> \/\/\/
             if isend_upper_graph == 'upper_graph_end':
                 price_matrix.append(price_list.copy())
 
+                #=== <check for completion of the lower graph> / <проверка на завершение нижнего графика> \/\/\/
                 if len(price_matrix) == LOWER_GRAPH_BLOCKS:
                     print('end')
                     draw_lower_graph()
@@ -1969,6 +2000,8 @@ def start(func_draw_bg):
                     back_to_live_palet.clear()
                     update_price(None)
                     win.update()
+
+                    is_real_time_graph = False
                     return
 
 
@@ -1989,9 +2022,11 @@ def start(func_draw_bg):
                 draw_lower_graph()
                 redraw_back_to_live_palet()
 
+            #===== <if the upperp graph ends in history mode> / <если верхний график заканчивается в режиме истории> \/\/\/
             elif isend_upper_graph == 'upper_graph_end_in_history':
                 price_matrix.append(price_list.copy())
 
+                #=== <check for completion of the lower graph> / <проверка на завершение нижнего графика> \/\/\/
                 if len(price_matrix) == LOWER_GRAPH_BLOCKS:
                     draw_lower_graph()
                     update_interface()
@@ -2001,6 +2036,8 @@ def start(func_draw_bg):
                     back_to_live_palet.clear()
                     update_price(None)
                     win.update()
+
+                    is_real_time_graph = False
                     return
 
                 price_list.clear()
